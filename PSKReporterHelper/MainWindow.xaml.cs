@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.IO.Compression;
+using System.IO;
 
 namespace PSKReporterHelper
 {
@@ -46,6 +47,9 @@ namespace PSKReporterHelper
             string startPath = @".";
             string zipPath = @".\data.zip";
             string extractPath = @".\extract";
+
+            Directory.Delete(extractPath, true);
+
 
             // extract to the extract dir
             ZipFile.ExtractToDirectory(zipPath, extractPath);
