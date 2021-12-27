@@ -16,6 +16,10 @@ using System.Windows.Shapes;
 
 using System.IO.Compression;
 using System.IO;
+using CsvHelper.Configuration;
+using CsvHelper;
+using System.Globalization;
+using maidenhead;
 
 namespace PSKReporterHelper
 {
@@ -24,6 +28,9 @@ namespace PSKReporterHelper
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public string testLocator = "io82uc";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,6 +38,8 @@ namespace PSKReporterHelper
             DownloadData();
 
             uNzIP();
+
+            Reader();
         }
 
         private void DownloadData()
@@ -44,15 +53,77 @@ namespace PSKReporterHelper
 
         private void uNzIP()
         {
-            string startPath = @".";
+            //string startPath = @".";
             string zipPath = @".\data.zip";
             string extractPath = @".\extract";
 
-            Directory.Delete(extractPath, true);
+            if (Directory.Exists(extractPath))
+            {
+                Directory.Delete(extractPath, true);
+            }
 
 
             // extract to the extract dir
             ZipFile.ExtractToDirectory(zipPath, extractPath);
         }
+
+        private void Reader()
+        {
+            using (var reader = new StreamReader(@"extract\psk_data.csv"))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csv.Context.RegisterClassMap<ModelClassMap>();
+                var records = csv.GetRecords<Model>();
+
+                Console.WriteLine("hi");
+
+                foreach (var c in records)
+                {
+                    double dist = MaidenheadLocator.Distance(testLocator, c.receiverLocator);
+                    Console.WriteLine(c.mode + " " + c.MHz + " " + c.receiverLocator + " " + dist.ToString("F1"));
+                    
+                }
+            } 
+
+           
+        }
+
+        public class Model
+        {
+            public int sNR { get; set; }
+            public string mode { get; set; }
+            public double MHz { get; set; }
+            public DateTime rxTime { get; set; }
+            public string senderDXCC { get; set; }
+            public int flowStartSeconds { get; set; }
+            public string senderCallsign { get; set; }
+            public string senderLocator { get; set; }
+            public string receiverCallsign { get; set; }
+            public string receiverLocator { get; set; }
+            public string receiverAntennaInformation { get; set; }
+            public int senderDXCCADIF { get; set; }
+            public string submode { get; set; }
+        }
+
+        public class ModelClassMap : ClassMap<Model>
+        {
+            public ModelClassMap()
+            {
+                Map(m => m.sNR).Name("sNR");
+                Map(m => m.mode).Name("mode");
+                Map(m => m.MHz).Name("MHz");
+                Map(m => m.rxTime).Name("rxTime");
+                Map(m => m.senderDXCC).Name("senderDXCC");
+                Map(m => m.flowStartSeconds).Name("flowStartSeconds");
+                Map(m => m.senderCallsign).Name("senderCallsign");
+                Map(m => m.senderLocator).Name("senderLocator");
+                Map(m => m.receiverCallsign).Name("receiverCallsign");
+                Map(m => m.receiverLocator).Name("receiverLocator");
+                Map(m => m.receiverAntennaInformation).Name("receiverAntennaInformation");
+                Map(m => m.senderDXCCADIF).Name("senderDXCCADIF");
+                Map(m => m.submode).Name("submode");
+            }
+        }
+
     }
 }
