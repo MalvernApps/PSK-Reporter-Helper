@@ -180,7 +180,7 @@ namespace PSKReporterHelper
             switch (band)
             {
                 case 2:
-                    col = Brushes.RoyalBlue;
+                    col = Brushes.Red;
                     break;
 
                 case 20:
