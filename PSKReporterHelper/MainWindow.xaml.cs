@@ -20,6 +20,7 @@ using CsvHelper.Configuration;
 using CsvHelper;
 using System.Globalization;
 using maidenhead;
+using GMap.NET;
 
 namespace PSKReporterHelper
 {
@@ -103,6 +104,11 @@ namespace PSKReporterHelper
             public string receiverAntennaInformation { get; set; }
             public int senderDXCCADIF { get; set; }
             public string submode { get; set; }
+
+            public LatLng gps { get; set; }
+            public double distance { get; set; }
+
+            public double bearing { get; set; }
         }
 
         public class ModelClassMap : ClassMap<Model>
@@ -125,5 +131,28 @@ namespace PSKReporterHelper
             }
         }
 
+        private void map_Loaded(object sender, RoutedEventArgs e)
+        {
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
+            // choose your provider here
+            mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
+            mapView.MinZoom = 1;
+            mapView.MaxZoom = 24;
+            mapView.Zoom = 2;
+
+            mapView.Manager.Mode = AccessMode.ServerAndCache;
+            mapView.CacheLocation = "map cache";
+
+            // lets the map use the mousewheel to zoom
+            mapView.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            // lets the user drag the map
+            mapView.CanDragMap = true;
+            // lets the user drag the map with the left mouse button
+            mapView.DragButton = MouseButton.Left;
+
+            PointLatLng cen = new PointLatLng(52.108154, -2.296509);
+            mapView.Zoom = 1;
+            mapView.Position = cen;
+        }
     }
 }
