@@ -8,7 +8,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PSKReporterHelper"
         mc:Ignorable="d"
-        Title="PSKReporterHelper" Height="450" Width="800">
+        Title="PSKReporterHelper" Height="850" Width="800">
     <Grid>
 
 
@@ -22,7 +22,12 @@
 
         <Ribbon x:Name="RibbonWin" Grid.Row="0" Margin="0,-24,0,0">
             <RibbonGroup x:Name="ClipboardGroup" Header="Downloading">
-                <RibbonButton LargeImageSource="Images\download.png" Label="Download WSPR" KeyTip="X" Click="menuDownload"/>
+                <RibbonButton LargeImageSource="Images\download.png" Label="Download FT8" KeyTip="X" Click="menuDownload"/>
+            </RibbonGroup>
+
+            <RibbonGroup x:Name="AboutGroup" Header="Downloading">
+                <TextBox TextWrapping="Wrap" Width="100">Another M0JFG development</TextBox>
+
             </RibbonGroup>
         </Ribbon>
     </Grid>

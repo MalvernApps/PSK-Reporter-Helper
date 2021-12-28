@@ -36,11 +36,11 @@ namespace PSKReporterHelper
         {
             InitializeComponent();
 
-            DownloadDataFromPSKReporter();
+            //DownloadDataFromPSKReporter();
 
-            UnZip();
+            //UnZip();
 
-            Reader();
+            //Reader();
 
             this.Loaded += MainWindow_Loaded;
         }
@@ -231,7 +231,11 @@ namespace PSKReporterHelper
 
         private void menuDownload(object sender, RoutedEventArgs e)
         {
+            DownloadDataFromPSKReporter();
 
+            UnZip();
+
+            Reader();
         }
     }
 }
