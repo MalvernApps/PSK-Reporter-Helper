@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PSKReporterHelper.MainWindow"
          xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         xmlns:WindowsPresentation1="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"  
- 
+        xmlns:RibbonWin="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Ribbon" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,6 +10,18 @@
         mc:Ignorable="d"
         Title="PSKReporterHelper" Height="450" Width="800">
     <Grid>
-        <gmaps:GMapControl x:Name="mapView" Loaded="map_Loaded"/> 
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+
+        <gmaps:GMapControl x:Name="mapView" Loaded="map_Loaded" Grid.Row="1"/>
+
+        <Ribbon x:Name="RibbonWin" Grid.Row="0" Margin="0,-24,0,0">
+            
+        </Ribbon>
     </Grid>
 </Window>
