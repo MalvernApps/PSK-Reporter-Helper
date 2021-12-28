@@ -21,7 +21,9 @@
         <gmaps:GMapControl x:Name="mapView" Loaded="map_Loaded" Grid.Row="1"/>
 
         <Ribbon x:Name="RibbonWin" Grid.Row="0" Margin="0,-24,0,0">
-            
+            <RibbonGroup x:Name="ClipboardGroup" Header="Downloading">
+                <RibbonButton LargeImageSource="Images\download.png" Label="Download WSPR" KeyTip="X" Click="menuDownload"/>
+            </RibbonGroup>
         </Ribbon>
     </Grid>
 </Window>

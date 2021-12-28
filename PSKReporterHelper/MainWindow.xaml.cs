@@ -228,5 +228,10 @@ namespace PSKReporterHelper
 
             mapView.Markers.Add(marker);
         }
+
+        private void menuDownload(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
