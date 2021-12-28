@@ -36,14 +36,21 @@ namespace PSKReporterHelper
         {
             InitializeComponent();
 
-            DownloadData();
+            DownloadDataFromPSKReporter();
 
-            uNzIP();
+            UnZip();
 
             Reader();
+
+            this.Loaded += MainWindow_Loaded;
         }
 
-        private void DownloadData()
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            AdCircledMarker(52, -2, "hello home", 2 );
+        }
+
+        private void DownloadDataFromPSKReporter()
         {
             using (var client = new WebClient())
             {
@@ -51,8 +58,8 @@ namespace PSKReporterHelper
             }
 
         }
-
-        private void uNzIP()
+        
+        private void UnZip()
         {
             //string startPath = @".";
             string zipPath = @".\data.zip";
@@ -70,19 +77,28 @@ namespace PSKReporterHelper
 
         private void Reader()
         {
+            List<Model> data = new List<Model>();
+
             using (var reader = new StreamReader(@"extract\psk_data.csv"))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
                 csv.Context.RegisterClassMap<ModelClassMap>();
                 var records = csv.GetRecords<Model>();
+                data = records.ToList();
 
                 Console.WriteLine("hi");
 
-                foreach (var c in records)
+                foreach (Model c in data)
                 {
-                    double dist = MaidenheadLocator.Distance(testLocator, c.receiverLocator);
-                    Console.WriteLine(c.mode + " " + c.MHz + " " + c.receiverLocator + " " + dist.ToString("F1"));
-                    
+                    c.gps = MaidenheadLocator.LocatorToLatLng( c.receiverLocator );
+                    c.distance = MaidenheadLocator.Distance(testLocator, c.receiverLocator);
+                    Console.WriteLine(c.mode + " " + c.MHz + " " + c.receiverLocator + " " + c.distance.ToString("F1"));
+
+                    if ( c.mode == "FT8")
+                    AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.receiverCallsign, 2);
+
+                    if (c.distance > 1500)
+                        Console.WriteLine("Here");
                 }
             } 
 
@@ -151,8 +167,66 @@ namespace PSKReporterHelper
             mapView.DragButton = MouseButton.Left;
 
             PointLatLng cen = new PointLatLng(52.108154, -2.296509);
-            mapView.Zoom = 1;
+            mapView.Zoom = 7;
             mapView.Position = cen;
+        }
+
+        private void AdCircledMarker(double lat, double lng, string str, int band)
+        {
+            GMap.NET.WindowsPresentation.GMapMarker marker = new GMap.NET.WindowsPresentation.GMapMarker(new GMap.NET.PointLatLng(lat, lng));
+
+            Brush col;
+
+            switch (band)
+            {
+                case 2:
+                    col = Brushes.RoyalBlue;
+                    break;
+
+                case 20:
+                    col = Brushes.Violet;
+                    break;
+
+                case 21:
+                    col = Brushes.BlueViolet;
+                    break;
+
+                case 28:
+                    col = Brushes.Black;
+                    break;
+
+                case 18:
+                    col = Brushes.Blue;
+                    break;
+
+                case 10:
+                    col = Brushes.Yellow;
+                    break;
+
+                case 7:
+                    col = Brushes.White;
+                    break;
+
+                default:
+                    col = Brushes.Red;
+                    break;
+            }
+
+            col.Freeze();
+
+            marker.Shape = new Ellipse
+            {
+                Width = 10,
+                Height = 10,
+                Stroke = Brushes.Black,
+                StrokeThickness = 0.5,
+                ToolTip = str,
+                Visibility = Visibility.Visible,
+                Fill = col,
+
+            };
+
+            mapView.Markers.Add(marker);
         }
     }
 }
