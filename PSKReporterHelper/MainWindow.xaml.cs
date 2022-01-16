@@ -21,6 +21,7 @@ using CsvHelper;
 using System.Globalization;
 using maidenhead;
 using GMap.NET;
+using Microsoft.Win32;
 
 namespace PSKReporterHelper
 {
@@ -238,14 +239,38 @@ namespace PSKReporterHelper
             Reader();
         }
 
+        private string getTxtFilename( string Title )
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = Title;
+            openFileDialog.Multiselect = true;
+            openFileDialog.Filter = "Text files (*.txt)|*.txt|CSV Files (*.csv)|*.csv|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            //  "."; //  Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                return openFileDialog.FileName;
+            }
+
+            return null;
+        }
+
         private void menuWSJTLoading(object sender, RoutedEventArgs e)
         {
+           if (getTxtFilename( "Looking for a All.TXT") != null)
+            {
+                // we need to process the file
 
+            }
         }
 
         private void menuPSKFileLoading(object sender, RoutedEventArgs e)
         {
+            if (getTxtFilename("Looking for a psk_data.CSV") != null)
+            {
+                // we need to process the file
 
+            }
         }
     }
 }
