@@ -289,7 +289,9 @@ namespace PSKReporterHelper
                                 {
                                     try
                                     {
+                                        
                                         data.gps = MaidenheadLocator.LocatorToLatLng(data.Locator);
+                                        data.distance = MaidenheadLocator.Distance(testLocator, data.Locator);
                                         data.Callsign = split[count - 2];
                                         allData.Add(data);
                                     }
@@ -304,7 +306,13 @@ namespace PSKReporterHelper
                         // Process line
                     }
                 }
-            }            
+            }  
+            
+            // now we can add to the map
+            foreach( var c in allData )
+            {
+                AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.Callsign, 2);
+            }
         }
 
         private void menuPSKFileLoading(object sender, RoutedEventArgs e)

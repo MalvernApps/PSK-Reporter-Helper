@@ -23,5 +23,10 @@ namespace PSKReporterHelper
         /// tramsmitter callsign
         /// </summary>
         public string Callsign { get; set; }
+        
+        /// <summary>
+        /// distance away
+        /// </summary>
+        public double distance { get; set; }
     }
 }
