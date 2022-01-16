@@ -48,7 +48,7 @@ namespace PSKReporterHelper
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            AdCircledMarker(52, -2, "hello home", 2 );
+            AdCircledMarker(52, -2, "hello home", 2);
         }
 
         private void DownloadDataFromPSKReporter()
@@ -59,7 +59,7 @@ namespace PSKReporterHelper
             }
 
         }
-        
+
         private void UnZip()
         {
             //string startPath = @".";
@@ -91,19 +91,19 @@ namespace PSKReporterHelper
 
                 foreach (Model c in data)
                 {
-                    c.gps = MaidenheadLocator.LocatorToLatLng( c.receiverLocator );
+                    c.gps = MaidenheadLocator.LocatorToLatLng(c.receiverLocator);
                     c.distance = MaidenheadLocator.Distance(testLocator, c.receiverLocator);
                     Console.WriteLine(c.mode + " " + c.MHz + " " + c.receiverLocator + " " + c.distance.ToString("F1"));
 
-                    if ( c.mode == "FT8")
-                    AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.receiverCallsign, 2);
+                    if (c.mode == "FT8")
+                        AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.receiverCallsign, 2);
 
                     if (c.distance > 1500)
                         Console.WriteLine("Here");
                 }
-            } 
+            }
 
-           
+
         }
 
         public class Model
@@ -239,7 +239,7 @@ namespace PSKReporterHelper
             Reader();
         }
 
-        private string getTxtFilename( string Title )
+        private string getTxtFilename(string Title)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = Title;
@@ -257,11 +257,54 @@ namespace PSKReporterHelper
 
         private void menuWSJTLoading(object sender, RoutedEventArgs e)
         {
-           if (getTxtFilename( "Looking for a All.TXT") != null)
+            string filename;
+
+            filename = getTxtFilename("Looking for a All.TXT");
+
+            List<WSJT_Data> allData = new List<WSJT_Data>();
+
+            if (filename != null)
             {
                 // we need to process the file
+                const Int32 BufferSize = 128;
+                using (var fileStream = File.OpenRead(filename))
+                {
+                    using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+                    {
+                        String line;
+                        while ((line = streamReader.ReadLine()) != null)
+                        {
+                            if (line.Contains("CQ"))
+                            {
+                                Console.WriteLine(line);
+                                string[] split;
+                                split = line.Split(' ');
 
-            }
+                                WSJT_Data data = new WSJT_Data();
+                                // MaidenheadLocator.LocatorToLatLng(split[split.Count - 1]);
+                                int count = split.Length;
+
+                                data.Locator = split[count - 1];
+                                if (data.Locator.Length == 4)
+                                {
+                                    try
+                                    {
+                                        data.gps = MaidenheadLocator.LocatorToLatLng(data.Locator);
+                                        data.Callsign = split[count - 2];
+                                        allData.Add(data);
+                                    }
+                                    catch( Exception ex )
+                                    {
+
+                                    }
+                                   
+                                }
+                            }
+                        }
+                        // Process line
+                    }
+                }
+            }            
         }
 
         private void menuPSKFileLoading(object sender, RoutedEventArgs e)
