@@ -27,9 +27,9 @@ namespace PSKReporterHelper
         {
             InitializeComponent();
 
-            DownloadData();
+           // DownloadData();
 
-            uNzIP();
+           // uNzIP();
         }
 
         private void DownloadData()

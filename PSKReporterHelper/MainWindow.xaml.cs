@@ -237,5 +237,15 @@ namespace PSKReporterHelper
 
             Reader();
         }
+
+        private void menuWSJTLoading(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menuPSKFileLoading(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
