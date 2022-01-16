@@ -21,16 +21,24 @@
         <gmaps:GMapControl x:Name="mapView" Loaded="map_Loaded" Grid.Row="1"/>
 
         <Ribbon x:Name="RibbonWin" Grid.Row="0" Margin="0,-24,0,0">
+            <RibbonTab Header="Home">
+            
             <RibbonGroup x:Name="ClipboardGroup" Header="Downloading">
-                <RibbonButton LargeImageSource="Images\download.png" Label="Download FT8" KeyTip="X" Click="menuDownload"/>
-
-                   
+                    <RibbonButton LargeImageSource="Images\download.png" Label="Download FT8" KeyTip="X" Click="menuDownload"/>
                 </RibbonGroup>
+
+                <RibbonGroup Header="Load Files">
+                    <RibbonButton LargeImageSource="Images\open.png" Label="Load WSJT Log File" KeyTip="X" Click="menuWSJTLoading"/>
+                    <RibbonButton LargeImageSource="Images\open.png" Label="Load PSK File" KeyTip="X" Click="menuPSKFileLoading"/>
+                </RibbonGroup>
+            
+            
 
             <RibbonGroup x:Name="AboutGroup" Header="Downloading">
                 <TextBox TextWrapping="Wrap" Width="100">Another M0JFG development</TextBox>
 
             </RibbonGroup>
+            </RibbonTab>
         </Ribbon>
     </Grid>
 </Window>
