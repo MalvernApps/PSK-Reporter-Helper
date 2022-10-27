@@ -33,6 +33,8 @@ namespace PSKReporterHelper
 
         public string testLocator = "io82uc";
 
+        public List<pskdata> AllData = new List<pskdata>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -55,7 +57,8 @@ namespace PSKReporterHelper
         {
             using (var client = new WebClient())
             {
-                client.DownloadFile("https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=7&senderCallsign=M0JFG", "data.zip");
+                client.DownloadFile("https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=0.5&senderCallsign=M0JFG", "data.zip");
+                //client.DownloadFile("https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&hours=12&senderCallsign=M0JFG", "data.zip");
             }
 
         }
@@ -76,32 +79,41 @@ namespace PSKReporterHelper
             ZipFile.ExtractToDirectory(zipPath, extractPath);
         }
 
+        private void ParsePSKFile()
+        {
+            bool first = true;
+            foreach (string line in System.IO.File.ReadLines(@"extract\psk_data.csv"))
+            {
+                // System.Console.WriteLine(line);
+                pskdata ps = new pskdata();
+                if (first == false)
+                    ps.parseline(line);
+
+                first = false;
+
+                if (ps.rxlocation != null && (ps.txlocation.Length < 7) && (ps.rxlocation.Length < 7))
+                    AllData.Add(ps);
+            }
+        }
+
         private void Reader()
         {
-            List<Model> data = new List<Model>();
 
-            using (var reader = new StreamReader(@"extract\psk_data.csv"))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            ParsePSKFile();
+
+            foreach (pskdata c in AllData)
             {
-                csv.Context.RegisterClassMap<ModelClassMap>();
-                var records = csv.GetRecords<Model>();
-                data = records.ToList();
+                c.gps = MaidenheadLocator.LocatorToLatLng(c.rxlocation);
+                c.distance = MaidenheadLocator.Distance(testLocator, c.rxlocation);
+                Console.WriteLine(c.mode + " " + c.MHz + " " + c.rxlocation + " " + c.distance.ToString("F1"));
 
-                Console.WriteLine("hi");
+                if (c.mode.Contains("FT8"))
+                    AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.rxCallsign, 2);
 
-                foreach (Model c in data)
-                {
-                    c.gps = MaidenheadLocator.LocatorToLatLng(c.receiverLocator);
-                    c.distance = MaidenheadLocator.Distance(testLocator, c.receiverLocator);
-                    Console.WriteLine(c.mode + " " + c.MHz + " " + c.receiverLocator + " " + c.distance.ToString("F1"));
-
-                    if (c.mode == "FT8")
-                        AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.receiverCallsign, 2);
-
-                    if (c.distance > 1500)
-                        Console.WriteLine("Here");
-                }
+                if (c.distance > 1500)
+                    Console.WriteLine("Here");
             }
+
 
 
         }
@@ -289,27 +301,27 @@ namespace PSKReporterHelper
                                 {
                                     try
                                     {
-                                        
+
                                         data.gps = MaidenheadLocator.LocatorToLatLng(data.Locator);
                                         data.distance = MaidenheadLocator.Distance(testLocator, data.Locator);
                                         data.Callsign = split[count - 2];
                                         allData.Add(data);
                                     }
-                                    catch( Exception ex )
+                                    catch (Exception ex)
                                     {
 
                                     }
-                                   
+
                                 }
                             }
                         }
                         // Process line
                     }
                 }
-            }  
-            
+            }
+
             // now we can add to the map
-            foreach( var c in allData )
+            foreach (var c in allData)
             {
                 AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.Callsign, 2);
             }
