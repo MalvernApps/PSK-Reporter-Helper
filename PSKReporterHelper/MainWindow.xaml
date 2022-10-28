@@ -48,6 +48,14 @@
                 <TextBox TextWrapping="Wrap" Width="100">Another M0JFG development</TextBox>
 
             </RibbonGroup>
+
+                <RibbonGroup Header="Time Filters">
+                    <RibbonButton LargeImageSource="Images\time.png" Label="Last 15 Minutes" KeyTip="X" Click="menulast15"/>
+                    <RibbonButton LargeImageSource="Images\time.png" Label="Last 30 minutes" KeyTip="X" Click="menulast30"/>
+                    <RibbonButton LargeImageSource="Images\time.png" Label="Last Hour" KeyTip="X" Click="menulast60"/>
+                    <RibbonButton LargeImageSource="Images\time.png" Label="Show All" KeyTip="X" Click="menushowall"/>
+                </RibbonGroup>
+
             </RibbonTab>
         </Ribbon>
     </Grid>

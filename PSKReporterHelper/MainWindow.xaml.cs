@@ -32,7 +32,8 @@ namespace PSKReporterHelper
 
         public string testLocator = "io82uc";
 
-        public List<pskdata> AllData = new List<pskdata>();
+        public List<pskdata> UnfilteredData = new List<pskdata>();
+        public List<pskdata> FilteredData = new List<pskdata>();
 
         public MainWindow()
         {
@@ -43,7 +44,18 @@ namespace PSKReporterHelper
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            AdCircledMarker(52, -2, "hello home", 2);
+            pskdata ps = new pskdata();
+            ps.txlocation = "IO82uc";
+            ps.lng = -2;
+            ps.snr = 1000;
+            ps.distance = 0;
+
+            ps.gps = MaidenheadLocator.LocatorToLatLng(ps.txlocation);
+            ps.lat = ps.gps.Lat;
+            ps.lng = ps.gps.Long;
+
+
+            AdCircledMarker(ps, 2);
         }
 
         private void DownloadDataFromPSKReporter()
@@ -88,7 +100,7 @@ namespace PSKReporterHelper
                 first = false;
 
                 if (ps.rxlocation != null && (ps.txlocation.Length < 7) && (ps.rxlocation.Length < 7))
-                    AllData.Add(ps);
+                    UnfilteredData.Add(ps);
             }
         }
 
@@ -96,27 +108,26 @@ namespace PSKReporterHelper
         {
 
             ParsePSKFile();
-            if (AllData.Count == 0)
+            if (UnfilteredData.Count == 0)
             {
                 Console.WriteLine("No DATA");
                 return;
             }
 
-            foreach (pskdata c in AllData)
+            foreach (pskdata c in UnfilteredData)
             {
                 c.gps = MaidenheadLocator.LocatorToLatLng(c.rxlocation);
                 c.distance = MaidenheadLocator.Distance(testLocator, c.rxlocation);
                 Console.WriteLine(c.mode + " " + c.MHz + " " + c.rxlocation + " " + c.distance.ToString("F1"));
+                c.lat = c.gps.Lat;
+                c.lng = c.gps.Long;
 
                 if (c.mode.Contains("FT8"))
-                    AdCircledMarker(c.gps.Lat, c.gps.Long, c.Tostring() , 2);
+                    AdCircledMarker(c , 2);
 
                 if (c.distance > 1500)
                     Console.WriteLine("Here");
             }
-
-
-
         }
 
         public class Model
@@ -165,9 +176,9 @@ namespace PSKReporterHelper
             mapView.Position = cen;
         }
 
-        private void AdCircledMarker(double lat, double lng, string str, int band)
+        private void AdCircledMarker(pskdata ps,  int band)
         {
-            GMap.NET.WindowsPresentation.GMapMarker marker = new GMap.NET.WindowsPresentation.GMapMarker(new GMap.NET.PointLatLng(lat, lng));
+            GMap.NET.WindowsPresentation.GMapMarker marker = new GMap.NET.WindowsPresentation.GMapMarker(new GMap.NET.PointLatLng(ps.lat, ps.lng));
 
             Brush col;
 
@@ -214,7 +225,7 @@ namespace PSKReporterHelper
                 Height = 10,
                 Stroke = Brushes.Black,
                 StrokeThickness = 0.5,
-                ToolTip = str,
+                ToolTip = ps.Tostring(),
                 Visibility = Visibility.Visible,
                 Fill = col,
 
@@ -222,6 +233,7 @@ namespace PSKReporterHelper
 
             mapView.Markers.Add(marker);
         }
+
 
         private void menuDownload(object sender, RoutedEventArgs e)
         {
@@ -248,65 +260,65 @@ namespace PSKReporterHelper
             return null;
         }
 
-        private void menuWSJTLoading(object sender, RoutedEventArgs e)
-        {
-            string filename;
+        //private void menuWSJTLoading(object sender, RoutedEventArgs e)
+        //{
+        //    string filename;
 
-            filename = getTxtFilename("Looking for a All.TXT");
+        //    filename = getTxtFilename("Looking for a All.TXT");
 
-            List<WSJT_Data> allData = new List<WSJT_Data>();
+        //    List<WSJT_Data> allData = new List<WSJT_Data>();
 
-            if (filename != null)
-            {
-                // we need to process the file
-                const Int32 BufferSize = 128;
-                using (var fileStream = File.OpenRead(filename))
-                {
-                    using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
-                    {
-                        String line;
-                        while ((line = streamReader.ReadLine()) != null)
-                        {
-                            if (line.Contains("CQ"))
-                            {
-                                Console.WriteLine(line);
-                                string[] split;
-                                split = line.Split(' ');
+        //    if (filename != null)
+        //    {
+        //        // we need to process the file
+        //        const Int32 BufferSize = 128;
+        //        using (var fileStream = File.OpenRead(filename))
+        //        {
+        //            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+        //            {
+        //                String line;
+        //                while ((line = streamReader.ReadLine()) != null)
+        //                {
+        //                    if (line.Contains("CQ"))
+        //                    {
+        //                        Console.WriteLine(line);
+        //                        string[] split;
+        //                        split = line.Split(' ');
 
-                                WSJT_Data data = new WSJT_Data();
-                                // MaidenheadLocator.LocatorToLatLng(split[split.Count - 1]);
-                                int count = split.Length;
+        //                        WSJT_Data data = new WSJT_Data();
+        //                        // MaidenheadLocator.LocatorToLatLng(split[split.Count - 1]);
+        //                        int count = split.Length;
 
-                                data.Locator = split[count - 1];
-                                if (data.Locator.Length == 4)
-                                {
-                                    try
-                                    {
+        //                        data.Locator = split[count - 1];
+        //                        if (data.Locator.Length == 4)
+        //                        {
+        //                            try
+        //                            {
 
-                                        data.gps = MaidenheadLocator.LocatorToLatLng(data.Locator);
-                                        data.distance = MaidenheadLocator.Distance(testLocator, data.Locator);
-                                        data.Callsign = split[count - 2];
-                                        allData.Add(data);
-                                    }
-                                    catch (Exception ex)
-                                    {
+        //                                data.gps = MaidenheadLocator.LocatorToLatLng(data.Locator);
+        //                                data.distance = MaidenheadLocator.Distance(testLocator, data.Locator);
+        //                                data.Callsign = split[count - 2];
+        //                                allData.Add(data);
+        //                            }
+        //                            catch (Exception ex)
+        //                            {
 
-                                    }
+        //                            }
 
-                                }
-                            }
-                        }
-                        // Process line
-                    }
-                }
-            }
+        //                        }
+        //                    }
+        //                }
+        //                // Process line
+        //            }
+        //        }
+        //    }
 
-            // now we can add to the map
-            foreach (var c in allData)
-            {
-                AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.Callsign, 2);
-            }
-        }
+        //    // now we can add to the map
+        //    foreach (var c in allData)
+        //    {
+        //        AdCircledMarker(c, 2);
+        //    }
+        //}
 
         private void menuPSKFileLoading(object sender, RoutedEventArgs e)
         {
@@ -315,7 +327,7 @@ namespace PSKReporterHelper
                 // we need to process the file
                 string str = testCallsign.Text.ToUpper();
 
-                foreach( pskdata ps in AllData )
+                foreach( pskdata ps in UnfilteredData )
                 {
                     if ( ps.rxCallsign == str )
                     {
@@ -328,7 +340,7 @@ namespace PSKReporterHelper
 
         private void QueryCallsign(object sender, RoutedEventArgs e)
         {
-            if (AllData.Count == 0)
+            if (UnfilteredData.Count == 0)
             {
 
                 result.Content = "No DATA TO WORK WITH!, DOWNLOAD SOME";
@@ -338,7 +350,7 @@ namespace PSKReporterHelper
             // we need to process the file
             string str = testCallsign.Text.ToUpper();
 
-                foreach (pskdata ps in AllData)
+                foreach (pskdata ps in UnfilteredData)
                 {
                     if (ps.rxCallsign.Contains(str) )
                     {
@@ -352,6 +364,41 @@ namespace PSKReporterHelper
 
         }
 
-      
+        private void menulast15(object sender, RoutedEventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            now.AddMinutes(-15);
+
+            FilteredData = new List<pskdata>();
+
+            foreach( pskdata ps in UnfilteredData )
+            {
+                if (ps.time > now)
+                {
+                    FilteredData.Add(ps);
+                   // AdCircledMarker( )
+                }
+            }
+        }
+
+        private void menulast30(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menulast60(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menushowall(object sender, RoutedEventArgs e)
+        {
+            mapView.Markers.Clear();
+        }
+
+        private void menuWSJTLoading(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
