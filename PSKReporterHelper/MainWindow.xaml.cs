@@ -413,6 +413,8 @@ namespace PSKReporterHelper
         {
             filtertype = FilterEnum.fifteen;
 
+            MessageBox.Show("Not yet working");
+
             try
             {
                 if (F2 == null) return;
@@ -432,6 +434,8 @@ namespace PSKReporterHelper
         private void filterCheckedF2(object sender, RoutedEventArgs e)
         {
             filtertype = FilterEnum.thirty;
+
+            MessageBox.Show("Not yet working");
 
             try
             {
@@ -453,6 +457,8 @@ namespace PSKReporterHelper
         {
             filtertype = FilterEnum.hour;
 
+            MessageBox.Show("Not yet working");
+
             try
             {
                 if (F1 == null) return;
@@ -472,6 +478,8 @@ namespace PSKReporterHelper
         private void filterCheckedF4(object sender, RoutedEventArgs e)
         {
             filtertype = FilterEnum.lastday;
+
+            MessageBox.Show("Not yet working");
 
             try
             {
