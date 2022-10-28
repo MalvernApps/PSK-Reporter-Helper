@@ -16,8 +16,6 @@ using System.Windows.Shapes;
 
 using System.IO.Compression;
 using System.IO;
-using CsvHelper.Configuration;
-using CsvHelper;
 using System.Globalization;
 using maidenhead;
 using GMap.NET;
@@ -138,26 +136,6 @@ namespace PSKReporterHelper
             public double distance { get; set; }
 
             public double bearing { get; set; }
-        }
-
-        public class ModelClassMap : ClassMap<Model>
-        {
-            public ModelClassMap()
-            {
-                Map(m => m.sNR).Name("sNR");
-                Map(m => m.mode).Name("mode");
-                Map(m => m.MHz).Name("MHz");
-                Map(m => m.rxTime).Name("rxTime");
-                Map(m => m.senderDXCC).Name("senderDXCC");
-                Map(m => m.flowStartSeconds).Name("flowStartSeconds");
-                Map(m => m.senderCallsign).Name("senderCallsign");
-                Map(m => m.senderLocator).Name("senderLocator");
-                Map(m => m.receiverCallsign).Name("receiverCallsign");
-                Map(m => m.receiverLocator).Name("receiverLocator");
-                Map(m => m.receiverAntennaInformation).Name("receiverAntennaInformation");
-                Map(m => m.senderDXCCADIF).Name("senderDXCCADIF");
-                Map(m => m.submode).Name("submode");
-            }
         }
 
         private void map_Loaded(object sender, RoutedEventArgs e)
