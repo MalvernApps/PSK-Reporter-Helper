@@ -54,7 +54,6 @@ namespace PSKReporterHelper
             ps.lat = ps.gps.Lat;
             ps.lng = ps.gps.Long;
 
-
             AdCircledMarker(ps, 2);
         }
 
@@ -123,7 +122,7 @@ namespace PSKReporterHelper
                 c.lng = c.gps.Long;
 
                 if (c.mode.Contains("FT8"))
-                    AdCircledMarker(c , 2);
+                    AdCircledMarker(c , 20);
 
                 if (c.distance > 1500)
                     Console.WriteLine("Here");
@@ -364,36 +363,44 @@ namespace PSKReporterHelper
 
         }
 
-        private void menulast15(object sender, RoutedEventArgs e)
+        private void DoTimeFilter( int minutes )
         {
+            // remove all map markers
+            mapView.Markers.Clear();
+
             DateTime now = DateTime.Now;
-            now.AddMinutes(-15);
+            now = now.AddMinutes(-minutes);
 
             FilteredData = new List<pskdata>();
 
-            foreach( pskdata ps in UnfilteredData )
+            foreach (pskdata ps in UnfilteredData)
             {
                 if (ps.time > now)
                 {
                     FilteredData.Add(ps);
-                   // AdCircledMarker( )
+                    AdCircledMarker(ps, 20);
                 }
             }
         }
 
+        private void menulast15(object sender, RoutedEventArgs e)
+        {
+            DoTimeFilter(15);
+        }
+
         private void menulast30(object sender, RoutedEventArgs e)
         {
-
+            DoTimeFilter(30);
         }
 
         private void menulast60(object sender, RoutedEventArgs e)
         {
-
+            DoTimeFilter(60);
         }
 
         private void menushowall(object sender, RoutedEventArgs e)
         {
-            mapView.Markers.Clear();
+            DoTimeFilter(120);
         }
 
         private void menuWSJTLoading(object sender, RoutedEventArgs e)
