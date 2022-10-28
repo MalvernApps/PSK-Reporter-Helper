@@ -58,5 +58,15 @@ namespace PSKReporterHelper
 
             antenna = split[10];
         }
+
+        public string Tostring()
+        {
+            string str;
+
+            str = distance.ToString("F1") + "KM  RxCallsign:" + rxCallsign + " SNR:" + snr;
+
+            return str;
+
+        }
     }
 }

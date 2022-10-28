@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Configuration;
 
 using System.IO.Compression;
 using System.IO;
@@ -37,12 +38,6 @@ namespace PSKReporterHelper
         {
             InitializeComponent();
 
-            //DownloadDataFromPSKReporter();
-
-            //UnZip();
-
-            //Reader();
-
             this.Loaded += MainWindow_Loaded;
         }
 
@@ -53,9 +48,12 @@ namespace PSKReporterHelper
 
         private void DownloadDataFromPSKReporter()
         {
+            string mycallsign = ConfigurationManager.AppSettings.Get("myCallsign");
+
             using (var client = new WebClient())
             {
-                client.DownloadFile("https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=0.5&senderCallsign=M0JFG", "data.zip");
+                string dwn = "https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=0.5&senderCallsign=" + mycallsign;
+                client.DownloadFile(dwn, "data.zip");
                 //client.DownloadFile("https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&hours=12&senderCallsign=M0JFG", "data.zip");
             }
 
@@ -98,6 +96,11 @@ namespace PSKReporterHelper
         {
 
             ParsePSKFile();
+            if (AllData.Count == 0)
+            {
+                Console.WriteLine("No DATA");
+                return;
+            }
 
             foreach (pskdata c in AllData)
             {
@@ -106,7 +109,7 @@ namespace PSKReporterHelper
                 Console.WriteLine(c.mode + " " + c.MHz + " " + c.rxlocation + " " + c.distance.ToString("F1"));
 
                 if (c.mode.Contains("FT8"))
-                    AdCircledMarker(c.gps.Lat, c.gps.Long, c.distance.ToString("F1") + " " + c.rxCallsign, 2);
+                    AdCircledMarker(c.gps.Lat, c.gps.Long, c.Tostring() , 2);
 
                 if (c.distance > 1500)
                     Console.WriteLine("Here");
@@ -310,8 +313,45 @@ namespace PSKReporterHelper
             if (getTxtFilename("Looking for a psk_data.CSV") != null)
             {
                 // we need to process the file
+                string str = testCallsign.Text.ToUpper();
 
+                foreach( pskdata ps in AllData )
+                {
+                    if ( ps.rxCallsign == str )
+                    {
+                        result.Content = ps.Tostring();
+                        return;
+                    }
+                }
             }
         }
+
+        private void QueryCallsign(object sender, RoutedEventArgs e)
+        {
+            if (AllData.Count == 0)
+            {
+
+                result.Content = "No DATA TO WORK WITH!, DOWNLOAD SOME";
+                return;
+            }
+
+            // we need to process the file
+            string str = testCallsign.Text.ToUpper();
+
+                foreach (pskdata ps in AllData)
+                {
+                    if (ps.rxCallsign.Contains(str) )
+                    {
+                        result.Content = "PROABABLY YES " + ps.Tostring();
+                        return;
+                    }
+                }
+
+            result.Content = "NO RESULT!";
+
+
+        }
+
+      
     }
 }

@@ -8,17 +8,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PSKReporterHelper"
         mc:Ignorable="d"
-        Title="PSKReporterHelper" Height="850" Width="800">
+        Title="PSKHelper by M0JFG" Height="850" Width="800">
     <Grid>
 
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
+        <StackPanel Margin="10,
+                    -100,0,10"  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2">
+            <Label Height="24"  VerticalAlignment="Center">Callsign:</Label>
+            <TextBox x:Name="testCallsign" VerticalAlignment="Center" Width="150">M7XVK</TextBox>
+            <Button Click="QueryCallsign" Margin="10,0,0,0" Width="150">Can he see me?</Button>
+            <Label x:Name="result" Height="24"  VerticalAlignment="Center">no result yet</Label>
+        </StackPanel>
         
 
-        <gmaps:GMapControl x:Name="mapView" Loaded="map_Loaded" Grid.Row="1"/>
+        <gmaps:GMapControl x:Name="mapView" Loaded="map_Loaded" Grid.Row="3"/>
 
         <Ribbon x:Name="RibbonWin" Grid.Row="0" Margin="0,-24,0,0">
             <RibbonTab Header="Home">
