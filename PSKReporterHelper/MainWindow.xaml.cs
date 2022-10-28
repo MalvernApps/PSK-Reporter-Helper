@@ -29,7 +29,7 @@ namespace PSKReporterHelper
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        FilterEnum filtertype = FilterEnum.fifteen;
         public string testLocator = "io82uc";
 
         public List<pskdata> UnfilteredData = new List<pskdata>();
@@ -411,6 +411,8 @@ namespace PSKReporterHelper
 
         private void filterCheckedF1(object sender, RoutedEventArgs e)
         {
+            filtertype = FilterEnum.fifteen;
+
             try
             {
                 if (F2 == null) return;
@@ -429,6 +431,8 @@ namespace PSKReporterHelper
 
         private void filterCheckedF2(object sender, RoutedEventArgs e)
         {
+            filtertype = FilterEnum.thirty;
+
             try
             {
                 if (F1 == null) return;
@@ -447,6 +451,8 @@ namespace PSKReporterHelper
 
         private void filterCheckedF3(object sender, RoutedEventArgs e)
         {
+            filtertype = FilterEnum.hour;
+
             try
             {
                 if (F1 == null) return;
@@ -465,6 +471,8 @@ namespace PSKReporterHelper
 
         private void filterCheckedF4(object sender, RoutedEventArgs e)
         {
+            filtertype = FilterEnum.lastday;
+
             try
             {
                 if (F1 == null) return;
@@ -479,6 +487,11 @@ namespace PSKReporterHelper
             {
 
             }
+        }
+
+        private void F1Unchecked(object sender, RoutedEventArgs e)
+        {
+           
         }
     }
 }
