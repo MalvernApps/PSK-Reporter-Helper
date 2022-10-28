@@ -400,12 +400,85 @@ namespace PSKReporterHelper
 
         private void menushowall(object sender, RoutedEventArgs e)
         {
-            DoTimeFilter(120);
+            DoTimeFilter(1200);
         }
 
         private void menuWSJTLoading(object sender, RoutedEventArgs e)
         {
 
+        }
+
+
+        private void filterCheckedF1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (F2 == null) return;
+                if (F3 == null) return;
+                if (F4 == null) return;
+
+                F2.IsChecked = false;
+                F3.IsChecked = false;
+                F4.IsChecked = false;
+            }
+            catch( Exception ex )
+            {
+
+            }
+        }
+
+        private void filterCheckedF2(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (F1 == null) return;
+                if (F3 == null) return;
+                if (F4 == null) return;
+
+                F1.IsChecked = false;
+                F3.IsChecked = false;
+                F4.IsChecked = false;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void filterCheckedF3(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (F1 == null) return;
+                if (F2 == null) return;
+                if (F4 == null) return;
+
+                F1.IsChecked = false;
+                F2.IsChecked = false;
+                F4.IsChecked = false;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void filterCheckedF4(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (F1 == null) return;
+                if (F2 == null) return;
+                if (F3 == null) return;
+
+                F1.IsChecked = false;
+                F2.IsChecked = false;
+                F3.IsChecked = false;
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

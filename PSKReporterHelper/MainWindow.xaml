@@ -49,8 +49,12 @@
 
             </RibbonGroup>
 
-                <RibbonGroup Header="Time Filters">
-                    <RibbonToggleButton  LargeImageSource="Images\time.png" Label="Atest button" IsChecked="True"></RibbonToggleButton>
+                <RibbonGroup Header="Push Time Filters">
+                    <RibbonToggleButton x:Name="F1" LargeImageSource="Images\time.png" Label="15 mins" IsChecked="True" Checked="filterCheckedF1"></RibbonToggleButton>
+                    <RibbonToggleButton x:Name="F2" LargeImageSource="Images\time.png" Label="30 mins" IsChecked="False" Checked="filterCheckedF2"></RibbonToggleButton>
+                    <RibbonToggleButton x:Name="F3" LargeImageSource="Images\time.png" Label="60 mins" IsChecked="False" Checked="filterCheckedF3"></RibbonToggleButton>
+                    <RibbonToggleButton x:Name="F4" LargeImageSource="Images\time.png" Label="All" IsChecked="False" Checked="filterCheckedF4"></RibbonToggleButton>
+                    
                     <RibbonButton LargeImageSource="Images\time.png" Label="Last 15 Minutes" KeyTip="X" Click="menulast15"/>
                     <RibbonButton LargeImageSource="Images\time.png" Label="Last 30 minutes" KeyTip="X" Click="menulast30"/>
                     <RibbonButton LargeImageSource="Images\time.png" Label="Last Hour" KeyTip="X" Click="menulast60"/>
