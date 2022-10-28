@@ -50,6 +50,7 @@
             </RibbonGroup>
 
                 <RibbonGroup Header="Time Filters">
+                    <RibbonToggleButton  LargeImageSource="Images\time.png" Label="Atest button" IsChecked="True"></RibbonToggleButton>
                     <RibbonButton LargeImageSource="Images\time.png" Label="Last 15 Minutes" KeyTip="X" Click="menulast15"/>
                     <RibbonButton LargeImageSource="Images\time.png" Label="Last 30 minutes" KeyTip="X" Click="menulast30"/>
                     <RibbonButton LargeImageSource="Images\time.png" Label="Last Hour" KeyTip="X" Click="menulast60"/>
