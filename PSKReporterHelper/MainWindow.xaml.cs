@@ -199,6 +199,8 @@ namespace PSKReporterHelper
             PointLatLng cen = new PointLatLng(coord.Lat, coord.Long);
             mapView.Zoom = 7;
             mapView.Position = cen;
+
+            mapView.Zoom = 2;
         }
 
         private void AdCircledMarker(pskdata ps,  int band)
