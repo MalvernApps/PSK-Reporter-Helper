@@ -42,19 +42,41 @@ namespace PSKReporterHelper
             this.Loaded += MainWindow_Loaded;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void PlotHomeLocation()
         {
+            // center onto the home position
+            string myLocator = ConfigurationManager.AppSettings.Get("myLocation");
+            LatLng coord = MaidenheadLocator.LocatorToLatLng(myLocator);
+
             pskdata ps = new pskdata();
             ps.txlocation = "IO82uc";
             ps.lng = -2;
             ps.snr = 1000;
             ps.distance = 0;
+            ps.rxCallsign = "My HOME";
 
-            ps.gps = MaidenheadLocator.LocatorToLatLng(ps.txlocation);
-            ps.lat = ps.gps.Lat;
-            ps.lng = ps.gps.Long;
+            ps.gps = coord;
+            ps.lat = coord.Lat;
+            ps.lng = coord.Long;
 
             AdCircledMarker(ps, 2);
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // as a red sircle
+            PlotHomeLocation();
+            //pskdata ps = new pskdata();
+            //ps.txlocation = "IO82uc";
+            //ps.lng = -2;
+            //ps.snr = 1000;
+            //ps.distance = 0;
+
+            //ps.gps = MaidenheadLocator.LocatorToLatLng(ps.txlocation);
+            //ps.lat = ps.gps.Lat;
+            //ps.lng = ps.gps.Long;
+
+            //AdCircledMarker(ps, 2);
         }
 
         private void DownloadDataFromPSKReporter()
@@ -147,7 +169,6 @@ namespace PSKReporterHelper
 
             public LatLng gps { get; set; }
             public double distance { get; set; }
-
             public double bearing { get; set; }
         }
 
@@ -170,7 +191,12 @@ namespace PSKReporterHelper
             // lets the user drag the map with the left mouse button
             mapView.DragButton = MouseButton.Left;
 
-            PointLatLng cen = new PointLatLng(52.108154, -2.296509);
+            // center onto the home position
+            string myLocator = ConfigurationManager.AppSettings.Get("myLocation");
+
+            LatLng coord = MaidenheadLocator.LocatorToLatLng(myLocator);
+
+            PointLatLng cen = new PointLatLng(coord.Lat, coord.Long);
             mapView.Zoom = 7;
             mapView.Position = cen;
         }
