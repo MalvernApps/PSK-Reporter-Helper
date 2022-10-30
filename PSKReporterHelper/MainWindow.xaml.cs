@@ -441,7 +441,7 @@ namespace PSKReporterHelper
         {
             filtertype = FilterEnum.fifteen;
 
-            MessageBox.Show("Not yet working");
+            MessageBox.Show("Feature Not yet working");
 
             try
             {
@@ -463,7 +463,7 @@ namespace PSKReporterHelper
         {
             filtertype = FilterEnum.thirty;
 
-            MessageBox.Show("Not yet working");
+            MessageBox.Show("Feature Not yet working");
 
             try
             {
@@ -485,7 +485,7 @@ namespace PSKReporterHelper
         {
             filtertype = FilterEnum.hour;
 
-            MessageBox.Show("Not yet working");
+            MessageBox.Show("Feature Not yet working");
 
             try
             {
@@ -507,7 +507,7 @@ namespace PSKReporterHelper
         {
             filtertype = FilterEnum.lastday;
 
-            MessageBox.Show("Not yet working");
+            MessageBox.Show("Feature Not yet working");
 
             try
             {
