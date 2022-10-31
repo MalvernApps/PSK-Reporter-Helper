@@ -176,7 +176,8 @@ namespace PSKReporterHelper
         {
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
             // choose your provider here
-            mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
+            //mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
+            mapView.MapProvider = GMap.NET.MapProviders.OpenStreetMapProvider.Instance;
             mapView.MinZoom = 1;
             mapView.MaxZoom = 24;
             mapView.Zoom = 2;
