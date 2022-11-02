@@ -20,11 +20,9 @@ namespace PSKReporterHelper
 
         public double distance { get; set; }
 
-
         public double lat { get; set; }
 
         public double lng { get; set; }
-
         public string mode { get; set; }
 
         public string txCallsign { get; set; }
@@ -68,7 +66,7 @@ namespace PSKReporterHelper
         {
             string str;
 
-            str = distance.ToString("F1") + "KM  RxCallsign:" + rxCallsign + " SNR:" + snr;
+            str = distance.ToString("F1") + "KM  RxCallsign:" + rxCallsign + " SNR:" + snr + " " + rxlocation;
 
             return str;
 
