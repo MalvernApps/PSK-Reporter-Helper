@@ -68,18 +68,7 @@ namespace PSKReporterHelper
             timeFilter.SelectedIndex = 3;
 
             // as a red sircle
-            PlotHomeLocation();
-            //pskdata ps = new pskdata();
-            //ps.txlocation = "IO82uc";
-            //ps.lng = -2;
-            //ps.snr = 1000;
-            //ps.distance = 0;
-
-            //ps.gps = MaidenheadLocator.LocatorToLatLng(ps.txlocation);
-            //ps.lat = ps.gps.Lat;
-            //ps.lng = ps.gps.Long;
-
-            //AdCircledMarker(ps, 2);
+            PlotHomeLocation();            
         }
 
         private void DownloadDataFromPSKReporter()
@@ -189,6 +178,13 @@ namespace PSKReporterHelper
             mapView.Zoom = 2;
         }
 
+        /// <summary>
+        /// from stack overflow
+        /// </summary>
+        /// <param name="rangeStart"></param>
+        /// <param name="rangeEnd"></param>
+        /// <param name="actualValue"></param>
+        /// <returns></returns>
         private Color GetColor(Int32 rangeStart /*Complete Red*/, Int32 rangeEnd /*Complete Green*/, Int32 actualValue)
         {
             if (rangeStart >= rangeEnd) return Colors.Black;
