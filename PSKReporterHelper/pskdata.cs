@@ -23,6 +23,7 @@ namespace PSKReporterHelper
         public double lat { get; set; }
 
         public double lng { get; set; }
+
         public string mode { get; set; }
 
         public string txCallsign { get; set; }

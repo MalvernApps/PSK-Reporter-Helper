@@ -359,7 +359,7 @@ namespace PSKReporterHelper
             // remove all map markers
             mapView.Markers.Clear();
 
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
             now = now.AddMinutes(-minutes);
 
             FilteredData = new List<pskdata>();
@@ -395,6 +395,12 @@ namespace PSKReporterHelper
 
             DoTimeFilter(minutes);
 
+        }
+
+        private void menuGrid(object sender, RoutedEventArgs e)
+        {
+            GridDisplay gd = new GridDisplay(UnfilteredData);
+            gd.ShowDialog();
         }
     }
 }

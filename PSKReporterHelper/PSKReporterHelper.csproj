@@ -119,8 +119,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FilterEnum.cs" />
+    <Compile Include="GridDisplay.xaml.cs">
+      <DependentUpon>GridDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="pskdata.cs" />
     <Compile Include="WSJT_Data.cs" />
+    <Page Include="GridDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -180,6 +187,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Redraw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\grid.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

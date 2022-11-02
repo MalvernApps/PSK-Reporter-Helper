@@ -35,6 +35,7 @@
             
             <RibbonGroup x:Name="ClipboardGroup" Header="Downloading">
                     <RibbonButton LargeImageSource="Images\download.png" Label="Download FT8" KeyTip="X" Click="menuDownload"/>
+                    <RibbonButton LargeImageSource="Images\grid.png" Label="View ALL FT8 Data" KeyTip="X" Click="menuGrid"/>
                 </RibbonGroup>
 
                 <RibbonGroup Header="Load Files">
