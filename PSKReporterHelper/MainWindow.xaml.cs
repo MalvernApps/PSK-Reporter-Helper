@@ -151,27 +151,6 @@ namespace PSKReporterHelper
             }
         }
 
-        public class Model
-        {
-            public int sNR { get; set; }
-            public string mode { get; set; }
-            public double MHz { get; set; }
-            public DateTime rxTime { get; set; }
-            public string senderDXCC { get; set; }
-            public int flowStartSeconds { get; set; }
-            public string senderCallsign { get; set; }
-            public string senderLocator { get; set; }
-            public string receiverCallsign { get; set; }
-            public string receiverLocator { get; set; }
-            public string receiverAntennaInformation { get; set; }
-            public int senderDXCCADIF { get; set; }
-            public string submode { get; set; }
-
-            public LatLng gps { get; set; }
-            public double distance { get; set; }
-            public double bearing { get; set; }
-        }
-
         private void map_Loaded(object sender, RoutedEventArgs e)
         {
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
@@ -204,46 +183,26 @@ namespace PSKReporterHelper
             mapView.Zoom = 2;
         }
 
+        private Color GetColor(Int32 rangeStart /*Complete Red*/, Int32 rangeEnd /*Complete Green*/, Int32 actualValue)
+        {
+            if (rangeStart >= rangeEnd) return Colors.Black;
+
+            Int32 max = rangeEnd - rangeStart; // make the scale start from 0
+            Int32 value = actualValue - rangeStart; // adjust the value accordingly
+
+            Int32 green = (255 * value) / max; // calculate green (the closer the value is to max, the greener it gets)
+            Int32 red = 255 - green; // set red as inverse of green
+
+            return Color.FromRgb((Byte)red, (Byte)green, (Byte)0);
+        }
+
         private void AdCircledMarker(pskdata ps,  int band)
         {
             GMap.NET.WindowsPresentation.GMapMarker marker = new GMap.NET.WindowsPresentation.GMapMarker(new GMap.NET.PointLatLng(ps.lat, ps.lng));
 
             Brush col;
 
-            switch (band)
-            {
-                case 2:
-                    col = Brushes.Red;
-                    break;
-
-                case 20:
-                    col = Brushes.Violet;
-                    break;
-
-                case 21:
-                    col = Brushes.BlueViolet;
-                    break;
-
-                case 28:
-                    col = Brushes.Black;
-                    break;
-
-                case 18:
-                    col = Brushes.Blue;
-                    break;
-
-                case 10:
-                    col = Brushes.Yellow;
-                    break;
-
-                case 7:
-                    col = Brushes.White;
-                    break;
-
-                default:
-                    col = Brushes.Red;
-                    break;
-            }
+            col = new SolidColorBrush(GetColor(-25, 25, ps.snr));
 
             col.Freeze();
 
