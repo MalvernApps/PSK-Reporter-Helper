@@ -88,7 +88,7 @@ namespace PSKReporterHelper
 
             using (var client = new WebClient())
             {
-                string dwn = "https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=0.5&senderCallsign=" + mycallsign;
+                string dwn = "https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=1.0&senderCallsign=" + mycallsign;
                 client.DownloadFile(dwn, "data.zip");
                 //client.DownloadFile("https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&hours=12&senderCallsign=M0JFG", "data.zip");
             }
@@ -156,6 +156,9 @@ namespace PSKReporterHelper
 
         private void map_Loaded(object sender, RoutedEventArgs e)
         {
+            AddLogString("App started: " + DateTime.Now.ToString() + "\r\n");
+            AddLogString("App started: " + DateTime.UtcNow.ToString() + " UTC");
+
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
             // choose your provider here
             //mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
@@ -429,6 +432,24 @@ namespace PSKReporterHelper
         private void menuMap(object sender, RoutedEventArgs e)
         {
             mytabctrl.SelectedIndex = 0;
+        }
+
+        private void AddLogString( string lg )
+        {
+            mylog.Text += lg;
+        }
+
+        private void menuExperiment(object sender, RoutedEventArgs e)
+        {
+            // this is where I experiment
+
+            using (StreamWriter outputFile = new StreamWriter("test.txt"))   
+            {
+                foreach (pskdata ps in UnfilteredData)
+                    outputFile.WriteLine(ps.distance + "," + ps.snr);
+                //foreach (string line in lines)
+                //    outputFile.WriteLine(line);
+            }
         }
     }
 }

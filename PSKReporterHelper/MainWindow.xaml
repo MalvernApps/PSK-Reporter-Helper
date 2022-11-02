@@ -34,6 +34,9 @@
                 <DataGrid x:Name="mygrid"  Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" RowBackground="AliceBlue" AlternatingRowBackground="LightBlue" AlternationCount="2" MouseDoubleClick="dblClick">
                 </DataGrid>
             </TabItem>
+            <TabItem Header="App Log">
+                <TextBlock x:Name="mylog"></TextBlock>
+            </TabItem>
         </TabControl>
        
 
@@ -44,6 +47,7 @@
                     <RibbonButton LargeImageSource="Images\download.png" Label="Download FT8" KeyTip="X" Click="menuDownload"/>
                     <RibbonButton LargeImageSource="Images\grid.png" Label="View ALL FT8 Data" KeyTip="X" Click="menuGrid"/>
                     <RibbonButton LargeImageSource="Images\map.png" Label="Show map" KeyTip="X" Click="menuMap"/>
+                    <RibbonButton LargeImageSource="Images\config.png" Label="Experiment" KeyTip="X" Click="menuExperiment"/>
                 </RibbonGroup>
 
                 <RibbonGroup Header="Load Files">
