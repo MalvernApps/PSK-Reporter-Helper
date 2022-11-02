@@ -232,6 +232,8 @@ namespace PSKReporterHelper
             UnZip();
 
             Reader();
+
+            SetGrid();
         }
 
         private string getTxtFilename(string Title)
@@ -399,8 +401,34 @@ namespace PSKReporterHelper
 
         private void menuGrid(object sender, RoutedEventArgs e)
         {
-            GridDisplay gd = new GridDisplay(UnfilteredData);
-            gd.ShowDialog();
+            mytabctrl.SelectedIndex = 1;
+            //GridDisplay gd = new GridDisplay(UnfilteredData);
+            //gd.ShowDialog();
+        }
+
+        private void menuhelp(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("No help yet :)");
+        }
+
+        private void menuhome(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void dblClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void SetGrid()
+        {
+            mygrid.ItemsSource = UnfilteredData;
+        }
+
+        private void menuMap(object sender, RoutedEventArgs e)
+        {
+            mytabctrl.SelectedIndex = 0;
         }
     }
 }

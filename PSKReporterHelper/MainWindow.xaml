@@ -1,5 +1,5 @@
 ﻿<Window x:Class="PSKReporterHelper.MainWindow"
-         xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
+        xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         xmlns:WindowsPresentation1="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"  
         xmlns:RibbonWin="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Ribbon" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,7 +10,6 @@
         mc:Ignorable="d"
         Title="PSKHelper by M0JFG" Height="850" Width="800" Icon="Images\psk.png">
     <Grid>
-
 
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
@@ -26,9 +25,17 @@
             <Button Click="QueryCallsign" Margin="10,0,0,0" Width="150">Can he see me?</Button>
             <Label x:Name="result" Height="24"  VerticalAlignment="Center">no result yet</Label>
         </StackPanel>
-        
 
-        <gmaps:GMapControl x:Name="mapView" Loaded="map_Loaded" Grid.Row="3"/>
+        <TabControl Grid.Row="3" x:Name="mytabctrl">
+            <TabItem Header="Map">
+                <gmaps:GMapControl x:Name="mapView" Loaded="map_Loaded" />
+            </TabItem>
+            <TabItem Header="Grid - All Data">
+                <DataGrid x:Name="mygrid"  Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" RowBackground="AliceBlue" AlternatingRowBackground="LightBlue" AlternationCount="2" MouseDoubleClick="dblClick">
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+       
 
         <Ribbon x:Name="RibbonWin" Grid.Row="0" Margin="0,-24,0,0">
             <RibbonTab Header="Home">
@@ -36,6 +43,7 @@
             <RibbonGroup x:Name="ClipboardGroup" Header="Downloading">
                     <RibbonButton LargeImageSource="Images\download.png" Label="Download FT8" KeyTip="X" Click="menuDownload"/>
                     <RibbonButton LargeImageSource="Images\grid.png" Label="View ALL FT8 Data" KeyTip="X" Click="menuGrid"/>
+                    <RibbonButton LargeImageSource="Images\map.png" Label="Show map" KeyTip="X" Click="menuMap"/>
                 </RibbonGroup>
 
                 <RibbonGroup Header="Load Files">
@@ -57,8 +65,12 @@
 
                 </RibbonGroup>
 
+                <RibbonGroup x:Name="helper" Header="Other Stuff">
+                    <RibbonButton LargeImageSource="Images\home.png" Click="menuhome">Help</RibbonButton>
+                    <RibbonButton LargeImageSource="Images\help.png" Click="menuhelp">Help</RibbonButton>
 
-          
+                </RibbonGroup>
+
 
 
             </RibbonTab>
