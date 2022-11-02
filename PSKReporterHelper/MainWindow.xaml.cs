@@ -64,6 +64,9 @@ namespace PSKReporterHelper
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            timeFilter.ItemsSource = Enum.GetValues(typeof(FilterEnum)).Cast<FilterEnum>();
+            timeFilter.SelectedIndex = 3;
+
             // as a red sircle
             PlotHomeLocation();
             //pskdata ps = new pskdata();
@@ -371,123 +374,27 @@ namespace PSKReporterHelper
             }
         }
 
-        private void menulast15(object sender, RoutedEventArgs e)
-        {
-            DoTimeFilter(15);
-        }
-
-        private void menulast30(object sender, RoutedEventArgs e)
-        {
-            DoTimeFilter(30);
-        }
-
-        private void menulast60(object sender, RoutedEventArgs e)
-        {
-            DoTimeFilter(60);
-        }
-
-        private void menushowall(object sender, RoutedEventArgs e)
-        {
-            DoTimeFilter(1200);
-        }
-
         private void menuWSJTLoading(object sender, RoutedEventArgs e)
         {
 
         }
 
 
-        private void filterCheckedF1(object sender, RoutedEventArgs e)
-        {
-            filtertype = FilterEnum.fifteen;
-
-            MessageBox.Show("Feature Not yet working");
-
-            try
-            {
-                if (F2 == null) return;
-                if (F3 == null) return;
-                if (F4 == null) return;
-
-                F2.IsChecked = false;
-                F3.IsChecked = false;
-                F4.IsChecked = false;
-            }
-            catch( Exception ex )
-            {
-
-            }
-        }
-
-        private void filterCheckedF2(object sender, RoutedEventArgs e)
-        {
-            filtertype = FilterEnum.thirty;
-
-            MessageBox.Show("Feature Not yet working");
-
-            try
-            {
-                if (F1 == null) return;
-                if (F3 == null) return;
-                if (F4 == null) return;
-
-                F1.IsChecked = false;
-                F3.IsChecked = false;
-                F4.IsChecked = false;
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        private void filterCheckedF3(object sender, RoutedEventArgs e)
-        {
-            filtertype = FilterEnum.hour;
-
-            MessageBox.Show("Feature Not yet working");
-
-            try
-            {
-                if (F1 == null) return;
-                if (F2 == null) return;
-                if (F4 == null) return;
-
-                F1.IsChecked = false;
-                F2.IsChecked = false;
-                F4.IsChecked = false;
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        private void filterCheckedF4(object sender, RoutedEventArgs e)
-        {
-            filtertype = FilterEnum.lastday;
-
-            MessageBox.Show("Feature Not yet working");
-
-            try
-            {
-                if (F1 == null) return;
-                if (F2 == null) return;
-                if (F3 == null) return;
-
-                F1.IsChecked = false;
-                F2.IsChecked = false;
-                F3.IsChecked = false;
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
         private void F1Unchecked(object sender, RoutedEventArgs e)
         {
            
+        }
+
+
+        private void filterchanged(object sender, SelectionChangedEventArgs e)
+        {
+          
+            filtertype = (FilterEnum)timeFilter.SelectedItem;
+            int minutes;
+            minutes = (int) filtertype;
+
+            DoTimeFilter(minutes);
+
         }
     }
 }
