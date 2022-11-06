@@ -421,9 +421,21 @@ namespace PSKReporterHelper
 
         }
 
+        private void AddtoDatabase()
+        {
+            using (var ctx = new pskContext())
+            {
+                pskdata ps = UnfilteredData[0];             
+
+                ctx.Data.Add(ps);
+                ctx.SaveChanges();
+            }
+        }
+
         private void SetGrid()
         {
             mygrid.ItemsSource = UnfilteredData;
+            AddtoDatabase();
         }
 
         private void menuMap(object sender, RoutedEventArgs e)

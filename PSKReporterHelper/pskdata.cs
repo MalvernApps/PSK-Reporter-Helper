@@ -14,6 +14,9 @@ namespace PSKReporterHelper
     /// </summary>
     public class pskdata
     {
+        public int ID { get; set; }
+
+
         public int snr { get; set; }
 
         public double MHz { get; set; }
