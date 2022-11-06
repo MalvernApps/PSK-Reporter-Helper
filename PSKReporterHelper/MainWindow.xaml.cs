@@ -21,18 +21,23 @@ using System.Globalization;
 using maidenhead;
 using GMap.NET;
 using Microsoft.Win32;
+using System.Threading;
 
 namespace PSKReporterHelper
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// 
+    /// update nugets
+    /// /// update-package -reinstall 
+    /// 
     /// </summary>
     public partial class MainWindow : Window
     {
         FilterEnum filtertype = FilterEnum.fifteen;
         public string testLocator = "io82uc";
 
-        public List<pskdata> UnfilteredData = new List<pskdata>();
+         public List<pskdata> UnfilteredData = new List<pskdata>();
         public List<pskdata> FilteredData = new List<pskdata>();
 
         public MainWindow()
@@ -123,7 +128,7 @@ namespace PSKReporterHelper
             ParsePSKFile();
             if (UnfilteredData.Count == 0)
             {
-                Console.WriteLine("No DATA");
+               //Console.WriteLine("No DATA");
                 return;
             }
 
@@ -131,15 +136,15 @@ namespace PSKReporterHelper
             {
                 c.gps = MaidenheadLocator.LocatorToLatLng(c.rxlocation);
                 c.distance = MaidenheadLocator.Distance(testLocator, c.rxlocation);
-                Console.WriteLine(c.mode + " " + c.MHz + " " + c.rxlocation + " " + c.distance.ToString("F1"));
+                //Console.WriteLine(c.mode + " " + c.MHz + " " + c.rxlocation + " " + c.distance.ToString("F1"));
                 c.lat = c.gps.Lat;
                 c.lng = c.gps.Long;
 
                 if (c.mode.Contains("FT8"))
                     AdCircledMarker(c , 20);
 
-                if (c.distance > 1500)
-                    Console.WriteLine("Here");
+                //if (c.distance > 1500)
+                //    Console.WriteLine("Here");
             }
         }
 
@@ -232,7 +237,7 @@ namespace PSKReporterHelper
 
             Reader();
 
-            SetGrid();
+            SetGridAsync();
         }
 
         private string getTxtFilename(string Title)
@@ -419,22 +424,44 @@ namespace PSKReporterHelper
         {
 
         }
+        static private void Add( )
+        {
+            AddtoDatabaseAync(tmp);
+        }
 
-        private void AddtoDatabase()
+        static private void AddtoDatabaseAync(List<pskdata> data)
         {
             using (var ctx = new pskContext())
             {
-                pskdata ps = UnfilteredData[0];             
 
-                ctx.Data.Add(ps);
-                ctx.SaveChanges();
+                //Console.WriteLine(ctx.Data.Count());
+
+                foreach (pskdata p in data)
+                {
+
+                    ctx.Data.Add(p);
+                    ctx.SaveChanges();
+                }                
+
+                Console.WriteLine("thread done: " + ctx.Data.Count());
             }
+
+          
+
         }
 
-        private void SetGrid()
+        static List<pskdata> tmp;
+            
+        private void SetGridAsync()
         {
             mygrid.ItemsSource = UnfilteredData;
-            AddtoDatabase();
+
+            tmp = UnfilteredData;
+
+            // Create a thread and call a background method   
+            Thread backgroundThread = new Thread(new ThreadStart( MainWindow.Add ));
+            // Start thread  
+            backgroundThread.Start();
         }
 
         private void menuMap(object sender, RoutedEventArgs e)
