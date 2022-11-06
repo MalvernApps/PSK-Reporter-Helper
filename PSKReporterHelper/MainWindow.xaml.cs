@@ -68,18 +68,7 @@ namespace PSKReporterHelper
             timeFilter.SelectedIndex = 3;
 
             // as a red sircle
-            PlotHomeLocation();
-            //pskdata ps = new pskdata();
-            //ps.txlocation = "IO82uc";
-            //ps.lng = -2;
-            //ps.snr = 1000;
-            //ps.distance = 0;
-
-            //ps.gps = MaidenheadLocator.LocatorToLatLng(ps.txlocation);
-            //ps.lat = ps.gps.Lat;
-            //ps.lng = ps.gps.Long;
-
-            //AdCircledMarker(ps, 2);
+            PlotHomeLocation();            
         }
 
         private void DownloadDataFromPSKReporter()
@@ -88,7 +77,7 @@ namespace PSKReporterHelper
 
             using (var client = new WebClient())
             {
-                string dwn = "https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=0.5&senderCallsign=" + mycallsign;
+                string dwn = "https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=1.0&senderCallsign=" + mycallsign;
                 client.DownloadFile(dwn, "data.zip");
                 //client.DownloadFile("https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&hours=12&senderCallsign=M0JFG", "data.zip");
             }
@@ -156,6 +145,9 @@ namespace PSKReporterHelper
 
         private void map_Loaded(object sender, RoutedEventArgs e)
         {
+            AddLogString("App started: " + DateTime.Now.ToString() + "\r\n");
+            AddLogString("App started: " + DateTime.UtcNow.ToString() + " UTC");
+
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
             // choose your provider here
             //mapView.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
@@ -186,6 +178,13 @@ namespace PSKReporterHelper
             mapView.Zoom = 2;
         }
 
+        /// <summary>
+        /// from stack overflow
+        /// </summary>
+        /// <param name="rangeStart"></param>
+        /// <param name="rangeEnd"></param>
+        /// <param name="actualValue"></param>
+        /// <returns></returns>
         private Color GetColor(Int32 rangeStart /*Complete Red*/, Int32 rangeEnd /*Complete Green*/, Int32 actualValue)
         {
             if (rangeStart >= rangeEnd) return Colors.Black;
@@ -441,6 +440,24 @@ namespace PSKReporterHelper
         private void menuMap(object sender, RoutedEventArgs e)
         {
             mytabctrl.SelectedIndex = 0;
+        }
+
+        private void AddLogString( string lg )
+        {
+            mylog.Text += lg;
+        }
+
+        private void menuExperiment(object sender, RoutedEventArgs e)
+        {
+            // this is where I experiment
+
+            using (StreamWriter outputFile = new StreamWriter("test.txt"))   
+            {
+                foreach (pskdata ps in UnfilteredData)
+                    outputFile.WriteLine(ps.distance + "," + ps.snr);
+                //foreach (string line in lines)
+                //    outputFile.WriteLine(line);
+            }
         }
     }
 }
