@@ -22,6 +22,7 @@ using maidenhead;
 using GMap.NET;
 using Microsoft.Win32;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace PSKReporterHelper
 {
@@ -34,6 +35,8 @@ namespace PSKReporterHelper
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static System.Timers.Timer aTimer;
+
         FilterEnum filtertype = FilterEnum.fifteen;
         public string testLocator = "io82uc";
 
@@ -73,7 +76,35 @@ namespace PSKReporterHelper
             timeFilter.SelectedIndex = 3;
 
             // as a red sircle
-            PlotHomeLocation();            
+            PlotHomeLocation();
+
+            Download();
+
+            //SetTimer();
+        }
+
+        private void SetTimer()
+        {
+            // Create a timer with a two second interval.
+            aTimer = new System.Timers.Timer(10*1000*1);
+            // Hook up the Elapsed event for the timer. 
+            aTimer.Elapsed += ATimer_Elapsed;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+
+            aTimer.Start();
+        }
+
+        private void ATimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+             DispatcherPriority.Background,
+             new Action(() =>
+             {
+                 Download();
+             }));
+                   // Console.WriteLine("Timer off");
+
         }
 
         private void DownloadDataFromPSKReporter()
@@ -228,8 +259,7 @@ namespace PSKReporterHelper
             mapView.Markers.Add(marker);
         }
 
-
-        private void menuDownload(object sender, RoutedEventArgs e)
+        public void Download()
         {
             DownloadDataFromPSKReporter();
 
@@ -238,6 +268,12 @@ namespace PSKReporterHelper
             Reader();
 
             SetGridAsync();
+        }
+
+
+        private void menuDownload(object sender, RoutedEventArgs e)
+        {
+            Download();
         }
 
         private string getTxtFilename(string Title)
@@ -445,9 +481,6 @@ namespace PSKReporterHelper
 
                 Console.WriteLine("thread done: " + ctx.Data.Count());
             }
-
-          
-
         }
 
         static List<pskdata> tmp;
