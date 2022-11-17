@@ -241,6 +241,9 @@
   <ItemGroup>
     <Resource Include="Images\Map.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\psk.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

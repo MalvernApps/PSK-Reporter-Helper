@@ -8,7 +8,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PSKReporterHelper"
         mc:Ignorable="d"
-        Title="PSKHelper by M0JFG" Height="850" Width="800" Icon="Images\psk.png">
+        Title="PSKHelper by M0JFG" Height="850" Width="800" Icon="Images\psk.ico">
     <Grid>
 
         <Grid.RowDefinitions>
