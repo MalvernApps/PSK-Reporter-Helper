@@ -67,7 +67,7 @@ namespace PSKReporterHelper
             ps.lat = coord.Lat;
             ps.lng = coord.Long;
 
-            AdCircledMarker(ps, 2);
+            AdCircledMarkerPSK(ps, 2);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -172,7 +172,7 @@ namespace PSKReporterHelper
                 c.lng = c.gps.Long;
 
                 if (c.mode.Contains("FT8"))
-                    AdCircledMarker(c , 20);
+                    AdCircledMarkerPSK(c, 20);
 
                 //if (c.distance > 1500)
                 //    Console.WriteLine("Here");
@@ -234,9 +234,34 @@ namespace PSKReporterHelper
             return Color.FromRgb((Byte)red, (Byte)green, (Byte)0);
         }
 
-        private void AdCircledMarker(pskdata ps,  int band)
+        private void AdCircledMarkerSpot( Spot s, int band)
         {
-            GMap.NET.WindowsPresentation.GMapMarker marker = new GMap.NET.WindowsPresentation.GMapMarker(new GMap.NET.PointLatLng(ps.lat, ps.lng));
+            GMap.NET.WindowsPresentation.GMapMarker marker = new GMap.NET.WindowsPresentation.GMapMarker(new GMap.NET.PointLatLng(s.gps.Lat, s.gps.Long));
+
+            Brush col;
+
+            col = new SolidColorBrush(GetColor(-25, 25, (int) s.snr));
+
+            col.Freeze();
+
+            marker.Shape = new Ellipse
+            {
+                Width = 10,
+                Height = 10,
+                Stroke = Brushes.Black,
+                StrokeThickness = 0.5,
+                ToolTip = "WSPR",
+                Visibility = Visibility.Visible,
+                Fill = col,
+
+            };
+
+            mapView.Markers.Add(marker);
+        }
+
+        private void AdCircledMarkerPSK(pskdata ps,  int band)
+        {
+            GMap.NET.WindowsPresentation.GMapMarker marker = new GMap.NET.WindowsPresentation.GMapMarker(new GMap.NET.PointLatLng(ps.gps.Lat, ps.gps.Long));
 
             Brush col;
 
@@ -411,7 +436,7 @@ namespace PSKReporterHelper
                 if (ps.time > now)
                 {
                     FilteredData.Add(ps);
-                    AdCircledMarker(ps, 20);
+                    AdCircledMarkerPSK(ps, 20);
                 }
             }
         }
@@ -527,7 +552,23 @@ namespace PSKReporterHelper
         /// <param name="e"></param>
         private void menuWSPRDownload(object sender, RoutedEventArgs e)
         {
+            WSPRWebAccess wwa = new WSPRWebAccess();
+            wwa.download();
 
+            foreach (Spot s in wwa.Spots )
+            {
+                s.gps = MaidenheadLocator.LocatorToLatLng(s.grid);
+                s.distance = (float) MaidenheadLocator.Distance(testLocator, s.grid);
+                //Console.WriteLine(c.mode + " " + c.MHz + " " + c.rxlocation + " " + c.distance.ToString("F1"));
+                s.lat = s.gps.Lat;
+                s.lng = s.gps.Long;
+
+               // if (c.mode.Contains("FT8"))
+                    AdCircledMarkerSpot(s, 20);
+
+                //if (c.distance > 1500)
+                //    Console.WriteLine("Here");
+            }
         }
     }
 }

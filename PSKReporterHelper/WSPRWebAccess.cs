@@ -15,7 +15,7 @@ namespace PSKReporterHelper
     class WSPRWebAccess
     {
 
-        public List<Spot> spots = new List<Spot>();
+        public List<Spot> Spots = new List<Spot>();
 
         string downloadLimit = "1000000";
 
@@ -64,8 +64,8 @@ namespace PSKReporterHelper
             int count = 0;
 
             // make sure old data is gone
-            spots.Clear();
-            spots = new List<Spot>();
+            Spots.Clear();
+            Spots = new List<Spot>();
 
             // Read the file and display it line by line.  
             System.IO.StreamReader file = new System.IO.StreamReader(Globals.spotsFile);
@@ -75,7 +75,7 @@ namespace PSKReporterHelper
                 Spot s = new Spot();
                 s.str = line;
                 s.Parse(false);
-                spots.Add(s);
+                Spots.Add(s);
 
             }
 

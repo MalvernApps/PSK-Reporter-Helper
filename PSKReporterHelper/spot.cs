@@ -1,4 +1,5 @@
-﻿using System;
+﻿using maidenhead;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -51,6 +52,11 @@ namespace PSKReporterHelper
         public double tester { get; set; }
 
         public int band { get; set; }
+
+        public LatLng gps { get; set; }
+
+        public double lat { get; set; }
+        public double lng { get; set; }
 
         [Browsable(false)]
         public string str;
