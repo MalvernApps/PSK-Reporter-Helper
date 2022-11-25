@@ -44,7 +44,8 @@
             <RibbonTab Header="Home">
             
             <RibbonGroup x:Name="ClipboardGroup" Header="Downloading">
-                    <RibbonButton LargeImageSource="Images\download.png" Label="Download FT8" KeyTip="X" Click="menuDownload"/>
+                    <RibbonButton LargeImageSource="Images\download.png" Label="Download my FT8 Data (Default)" KeyTip="X" Click="menuDownload"/>
+                    <RibbonButton LargeImageSource="Images\download.png" Label="Download my WSPR Data" KeyTip="X" Click="menuWSPRDownload"/>
                     <RibbonButton LargeImageSource="Images\grid.png" Label="View ALL FT8 Data" KeyTip="X" Click="menuGrid"/>
                     <RibbonButton LargeImageSource="Images\map.png" Label="Show map" KeyTip="X" Click="menuMap"/>
                     <RibbonButton LargeImageSource="Images\config.png" Label="Experiment" KeyTip="X" Click="menuExperiment"/>

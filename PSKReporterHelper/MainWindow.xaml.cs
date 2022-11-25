@@ -519,5 +519,15 @@ namespace PSKReporterHelper
                 //    outputFile.WriteLine(line);
             }
         }
+
+        /// <summary>
+        /// Get WSPR data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void menuWSPRDownload(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
