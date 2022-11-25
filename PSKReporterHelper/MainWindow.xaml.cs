@@ -562,6 +562,8 @@ namespace PSKReporterHelper
             WSPR_max = wwa.Spots.Max(r => r.snr);
             WSPR_min = wwa.Spots.Min(r => r.snr);
 
+            if (WSPR_max > 5) WSPR_max = 5;
+
             foreach (Spot s in wwa.Spots )
             {
                 s.gps = MaidenheadLocator.LocatorToLatLng(s.grid);
@@ -571,6 +573,7 @@ namespace PSKReporterHelper
                 s.lng = s.gps.Long;
 
                // if (c.mode.Contains("FT8"))
+               if ( s.snr < 5 )
                     AdCircledMarkerSpot(s, 20);
 
                 //if (c.distance > 1500)
