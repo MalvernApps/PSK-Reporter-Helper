@@ -240,7 +240,7 @@ namespace PSKReporterHelper
 
             Brush col;
 
-            col = new SolidColorBrush(GetColor(-25, 25, (int) s.snr));
+            col = new SolidColorBrush(GetColor((int) WSPR_min, (int) WSPR_max, (int) s.snr));
 
             col.Freeze();
 
@@ -250,7 +250,7 @@ namespace PSKReporterHelper
                 Height = 10,
                 Stroke = Brushes.Black,
                 StrokeThickness = 0.5,
-                ToolTip = "WSPR",
+                ToolTip = s.Tostring(),
                 Visibility = Visibility.Visible,
                 Fill = col,
 
@@ -517,9 +517,9 @@ namespace PSKReporterHelper
             tmp = UnfilteredData;
 
             // Create a thread and call a background method   
-            Thread backgroundThread = new Thread(new ThreadStart( MainWindow.Add ));
+           // Thread backgroundThread = new Thread(new ThreadStart( MainWindow.Add ));
             // Start thread  
-            backgroundThread.Start();
+           // backgroundThread.Start();
         }
 
         private void menuMap(object sender, RoutedEventArgs e)
@@ -545,6 +545,8 @@ namespace PSKReporterHelper
             }
         }
 
+        float WSPR_min, WSPR_max;
+
         /// <summary>
         /// Get WSPR data
         /// </summary>
@@ -554,6 +556,11 @@ namespace PSKReporterHelper
         {
             WSPRWebAccess wwa = new WSPRWebAccess();
             wwa.download();
+
+            mapView.Markers.Clear();
+
+            WSPR_max = wwa.Spots.Max(r => r.snr);
+            WSPR_min = wwa.Spots.Min(r => r.snr);
 
             foreach (Spot s in wwa.Spots )
             {

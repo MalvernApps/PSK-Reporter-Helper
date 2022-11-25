@@ -100,5 +100,15 @@ namespace PSKReporterHelper
             xaxis = ((double)(time.ToOADate())) * 24.0;
 
         }
+
+        public string Tostring()
+        {
+            string str;
+
+            str = distance.ToString("F1") + "KM  RxCallsign:" + rx_sign + " SNR:" + snr + " " + distance.ToString("F2") + " KM";
+
+            return str;
+
+        }
     }
 }
