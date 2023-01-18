@@ -159,6 +159,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BandsEnum.cs" />
     <Compile Include="FilterEnum.cs" />
     <Compile Include="GridDisplay.xaml.cs">
       <DependentUpon>GridDisplay.xaml</DependentUpon>

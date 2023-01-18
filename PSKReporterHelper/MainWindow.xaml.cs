@@ -38,6 +38,8 @@ namespace PSKReporterHelper
         private static System.Timers.Timer aTimer;
 
         FilterEnum filtertype = FilterEnum.fifteen;
+        BandsEnum BandFilter = BandsEnum.thrity;
+
         public string testLocator = "io82uc";
 
          public List<pskdata> UnfilteredData = new List<pskdata>();
@@ -74,6 +76,9 @@ namespace PSKReporterHelper
         {
             timeFilter.ItemsSource = Enum.GetValues(typeof(FilterEnum)).Cast<FilterEnum>();
             timeFilter.SelectedIndex = 3;
+
+            bandFilter.ItemsSource = Enum.GetValues(typeof(BandsEnum)).Cast<BandsEnum>();
+            bandFilter.SelectedIndex = 4;
 
             // as a red sircle
             PlotHomeLocation();
@@ -421,7 +426,7 @@ namespace PSKReporterHelper
 
         }
 
-        private void DoTimeFilter( int minutes )
+        private void DoTimeFilter( int minutes, int band )
         {
             // remove all map markers
             mapView.Markers.Clear();
@@ -433,12 +438,22 @@ namespace PSKReporterHelper
 
             foreach (pskdata ps in UnfilteredData)
             {
-                if (ps.time > now)
+                if (ps.time > now && CheckFreq(ps.MHz, band) == true)
                 {
                     FilteredData.Add(ps);
                     AdCircledMarkerPSK(ps, 20);
                 }
             }
+        }
+
+        private bool CheckFreq( double mhz, int band )
+        {if (band == -1) return true;
+
+            double diff = Math.Abs(mhz - band);
+
+            if (diff < 1.0) return true;
+
+            return false; 
         }
 
         private void menuWSJTLoading(object sender, RoutedEventArgs e)
@@ -460,7 +475,12 @@ namespace PSKReporterHelper
             int minutes;
             minutes = (int) filtertype;
 
-            DoTimeFilter(minutes);
+            if ( bandFilter.SelectedItem != null )
+            BandFilter = (BandsEnum) bandFilter.SelectedItem;
+            int freq;
+            freq = (int)BandFilter;
+
+            DoTimeFilter(minutes, freq );
 
         }
 
@@ -561,6 +581,8 @@ namespace PSKReporterHelper
 
             WSPR_max = wwa.Spots.Max(r => r.snr);
             WSPR_min = wwa.Spots.Min(r => r.snr);
+
+            WSPR_max = 32;
 
             if (WSPR_max > 5) WSPR_max = 5;
 

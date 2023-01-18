@@ -70,7 +70,7 @@ namespace PSKReporterHelper
         {
             string str;
 
-            str = distance.ToString("F1") + "KM  RxCallsign:" + rxCallsign + " SNR:" + snr + " " + rxlocation;
+            str = distance.ToString("F1") + "KM  RxCallsign:" + rxCallsign + " SNR:" + snr + " " + rxlocation + " " + MHz;
 
             return str;
 

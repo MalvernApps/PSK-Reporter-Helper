@@ -60,6 +60,7 @@
 
                 <RibbonGroup Header="Time Filters">
                     <ComboBox x:Name="timeFilter" Width="120" SelectionChanged="filterchanged"></ComboBox>
+                    <ComboBox x:Name="bandFilter" Width="120" SelectionChanged="filterchanged"></ComboBox>
                 </RibbonGroup>
 
 
