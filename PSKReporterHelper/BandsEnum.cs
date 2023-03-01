@@ -8,8 +8,10 @@ namespace PSKReporterHelper
 {
     public enum BandsEnum
     {
+        
         all=-1,
-        Seventeen=18,
+        fifteen = 21,
+        Seventeen =18,
         Twenty=14,
         Thrity=10,
         Forty=7

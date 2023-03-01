@@ -38,7 +38,7 @@ namespace PSKReporterHelper
         private static System.Timers.Timer aTimer;
 
         FilterEnum filtertype = FilterEnum.fifteen;
-        BandsEnum BandFilter = BandsEnum.thrity;
+        BandsEnum BandFilter = BandsEnum.Thrity;
 
         public string testLocator = "io82uc";
 
