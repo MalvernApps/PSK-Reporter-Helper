@@ -8,8 +8,9 @@ namespace PSKReporterHelper
        fifteen=15,
         twenty = 20,
         thirty =30,
-       hour=60, 
-       lastday=(24*60)
+       hour=60,
+        twelveHour = (12*60),
+        lastday =(24*60)
     }
 
 }
