@@ -38,7 +38,7 @@ namespace PSKReporterHelper
         private static System.Timers.Timer aTimer;
 
         FilterEnum filtertype = FilterEnum.fifteen;
-        BandsEnum BandFilter = BandsEnum.thrity;
+        BandsEnum BandFilter = BandsEnum.Thrity;
 
         public string testLocator = "io82uc";
 
@@ -565,7 +565,53 @@ namespace PSKReporterHelper
             }
         }
 
+
         float WSPR_min, WSPR_max;
+
+        private void closeddrop(object sender, EventArgs e)
+        {
+            string res = dropFreq.Text;
+            int band = -1;
+
+            switch( res )
+            {
+                case "All":
+                    band = -1;
+                    break;
+
+                case "Twenty":
+                    band = 14;
+                    break;
+
+                case "Thirty":
+                    band = 10;
+                    break;
+
+                case "Seventen":
+                    band = 18;
+                    break;
+
+                case "Twelse":
+                    band = 24;
+                    break;
+
+                case "Ten":
+                    band = 28;
+                    break;
+
+                default: break;
+            }
+
+            filtertype = (FilterEnum)timeFilter.SelectedItem;
+            int minutes;
+            minutes = (int)filtertype;
+
+
+            int freq;
+            freq = (int)band;
+
+            DoTimeFilter(minutes, freq);
+        }
 
         /// <summary>
         /// Get WSPR data
