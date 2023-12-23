@@ -8,7 +8,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PSKReporterHelper"
         mc:Ignorable="d"
-        Title="PSKHelper by M0JFG" Height="850" Width="800" Icon="Images\psk.ico">
+        Title="PSKHelper by M0JFG" Height="850" Width="1000" Icon="Images\psk.ico">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -75,6 +75,26 @@
                     <RibbonButton LargeImageSource="Images\home.png" Click="menuhome">Help</RibbonButton>
                     <RibbonButton LargeImageSource="Images\help.png" Click="menuhelp">Help</RibbonButton>
 
+                    <RibbonComboBox Label="1" x:Name="dropFreq" DropDownClosed="closeddrop"
+                  SmallImageSource="Images/help.png"
+                  SelectionBoxWidth="62"
+                  VerticalAlignment="Center" 
+                  IsEditable="True" >
+                        <RibbonGallery SelectedValue="All"
+                          SelectedValuePath="Content"
+                          MaxColumnCount="1">
+                            <RibbonGalleryCategory>
+                                <RibbonGalleryItem Content="All" Foreground="Black" />
+                                <RibbonGalleryItem Content="Twenty" Foreground="Red" />
+                                <RibbonGalleryItem Content="Thirty" Foreground="Gold" />
+                                <RibbonGalleryItem Content="Seventen" Foreground="Green" />
+                                <RibbonGalleryItem Content="Twelve" Foreground="Blue" />
+                                <RibbonGalleryItem Content="Seventen" Foreground="Purple" />
+                            </RibbonGalleryCategory>
+                        </RibbonGallery>
+                    </RibbonComboBox>
+
+                  
                 </RibbonGroup>
 
 
