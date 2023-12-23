@@ -176,7 +176,7 @@ namespace PSKReporterHelper
                 c.lat = c.gps.Lat;
                 c.lng = c.gps.Long;
 
-                if (c.mode.Contains("FT8"))
+                if (c.mode.Contains("FT8") || c.mode.Contains("FT4"))
                     AdCircledMarkerPSK(c, 20);
 
                 //if (c.distance > 1500)

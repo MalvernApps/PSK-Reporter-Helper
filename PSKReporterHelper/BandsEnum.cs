@@ -9,7 +9,8 @@ namespace PSKReporterHelper
     public enum BandsEnum
     {
         all=-1,
-        seventeen=18,
+		    ten = 28,
+		    seventeen =18,
         twenty=14,
         thrity=10,
         forty=7
