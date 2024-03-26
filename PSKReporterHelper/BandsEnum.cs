@@ -13,8 +13,7 @@ namespace PSKReporterHelper
         fifteen = 21,
         Seventeen =18,
         Twenty=14,
-        Thirty=10,
-        Ten=28,
+        Thrity=10,
         Forty=7
 
     }
