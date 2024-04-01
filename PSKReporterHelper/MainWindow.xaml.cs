@@ -131,10 +131,9 @@ namespace PSKReporterHelper
 
         private void DownloadDataFromPSKReporter()
         {
-            string mycallsign = Properties.Settings.Default.MyCallsign;
-			//string mycallsign = ConfigurationManager.AppSettings.Get("myCallsign");
+            //string mycallsign = Properties.Settings.Default.MyCallsign;
 
-			mycallsign = testcall.SelectedValue as string;
+			      string mycallsign = testcall.SelectedValue as string;
 
 
 						using (var client = new WebClient())
@@ -634,12 +633,20 @@ namespace PSKReporterHelper
             DoTimeFilter(minutes, freq);
         }
 
-        /// <summary>
-        /// Get WSPR data
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void menuWSPRDownload(object sender, RoutedEventArgs e)
+		private void menuDelete(object sender, RoutedEventArgs e)
+		{
+      UnfilteredData = new List<pskdata>();
+
+			// remove all map markers
+			mapView.Markers.Clear();
+		}
+
+		/// <summary>
+		/// Get WSPR data
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void menuWSPRDownload(object sender, RoutedEventArgs e)
         {
             WSPRWebAccess wwa = new WSPRWebAccess();
             wwa.download();

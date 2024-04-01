@@ -258,6 +258,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\delete.png" />
     <Content Include="TestCallsigns.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
