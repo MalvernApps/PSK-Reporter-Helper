@@ -35,6 +35,8 @@ namespace PSKReporterHelper
     /// </summary>
     public partial class MainWindow : Window
     {
+    public static MainWindow Instance;
+
         private static System.Timers.Timer aTimer;
 
         FilterEnum filtertype = FilterEnum.fifteen;
@@ -49,8 +51,15 @@ namespace PSKReporterHelper
         {
             InitializeComponent();
 
+             Instance = this;
+
             this.Loaded += MainWindow_Loaded;
         }
+
+    public string GetMyCallsign()
+    {
+      return Properties.Settings.Default.MyCallsign;
+    }
 
         private void PlotHomeLocation()
         {
@@ -80,8 +89,16 @@ namespace PSKReporterHelper
             bandFilter.ItemsSource = Enum.GetValues(typeof(BandsEnum)).Cast<BandsEnum>();
             bandFilter.SelectedIndex = 4;
 
-            // as a red sircle
-            PlotHomeLocation();
+            LoadCallsigns lcs = new LoadCallsigns();
+
+      testcall.ItemsSource = lcs.callsigns; testcall.SelectedIndex = 5;
+
+      testcall.SelectedIndex = 0;
+
+
+
+						// as a red sircle
+						PlotHomeLocation();
 
             Download();
 
@@ -114,9 +131,13 @@ namespace PSKReporterHelper
 
         private void DownloadDataFromPSKReporter()
         {
-            string mycallsign = ConfigurationManager.AppSettings.Get("myCallsign");
+            string mycallsign = Properties.Settings.Default.MyCallsign;
+			//string mycallsign = ConfigurationManager.AppSettings.Get("myCallsign");
 
-            using (var client = new WebClient())
+			mycallsign = testcall.SelectedValue as string;
+
+
+						using (var client = new WebClient())
             {
                 string dwn = "https://www.pskreporter.info/cgi-bin/pskdata.pl?TXT=1&days=1.0&senderCallsign=" + mycallsign;
                 client.DownloadFile(dwn, "data.zip");

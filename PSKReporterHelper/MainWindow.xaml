@@ -20,7 +20,10 @@
 
         <StackPanel Margin="10,
                     -100,0,10"  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2">
-            <Label Height="24"  VerticalAlignment="Center">Callsign:</Label>
+            <Label Height="24"  VerticalAlignment="Center">Perspectiver of Callsign:</Label>
+            <ComboBox x:Name="testcall" Width="120"></ComboBox>
+            
+            
             <TextBox x:Name="testCallsign" VerticalAlignment="Center" Width="150">M7XVK</TextBox>
             <Button Click="QueryCallsign" Margin="10,0,0,0" Width="150">Can he see me?</Button>
             <Label x:Name="result" Height="24"  VerticalAlignment="Center">no result yet</Label>

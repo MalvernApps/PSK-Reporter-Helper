@@ -16,9 +16,9 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
-	  <LangVersion>10.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <NuGetPackageImportStamp>
-		<Nullable>disable</Nullable>
+      <Nullable>disable</Nullable>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -166,6 +166,7 @@
     <Compile Include="GridDisplay.xaml.cs">
       <DependentUpon>GridDisplay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LoadCallsigns.cs" />
     <Compile Include="pskContext.cs" />
     <Compile Include="pskdata.cs" />
     <Compile Include="spot.cs" />
@@ -255,6 +256,11 @@
       <Project>{bbfd66a6-7753-4368-bfe8-b63fb61e86b6}</Project>
       <Name>wpfUtils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestCallsigns.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
