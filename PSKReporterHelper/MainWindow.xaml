@@ -21,10 +21,11 @@
         <StackPanel Margin="10,
                     -100,0,10"  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2">
             <Label Height="24"  VerticalAlignment="Center">Perspectiver of Callsign:</Label>
-            <ComboBox x:Name="testcall" Width="120"></ComboBox>
+            <ComboBox x:Name="testcall" Width="120" SelectionChanged="perspectiveChanged"></ComboBox>
             
             
             <TextBox x:Name="testCallsign" VerticalAlignment="Center" Width="150">M7XVK</TextBox>
+            <Button Click="addPerspective" Width="110">Add Perspective</Button>
             <Button Click="QueryCallsign" Margin="10,0,0,0" Width="150">Can he see me?</Button>
             <Label x:Name="result" Height="24"  VerticalAlignment="Center">no result yet</Label>
         </StackPanel>

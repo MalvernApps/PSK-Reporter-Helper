@@ -23,6 +23,7 @@ using GMap.NET;
 using Microsoft.Win32;
 using System.Threading;
 using System.Windows.Threading;
+using static GMap.NET.Entity.OpenStreetMapGraphHopperRouteEntity;
 
 namespace PSKReporterHelper
 {
@@ -35,7 +36,9 @@ namespace PSKReporterHelper
     /// </summary>
     public partial class MainWindow : Window
     {
-    public static MainWindow Instance;
+		string fileName = "TestCallsigns.txt";
+
+		public static MainWindow Instance;
 
         private static System.Timers.Timer aTimer;
 
@@ -100,7 +103,7 @@ namespace PSKReporterHelper
 						// as a red sircle
 						PlotHomeLocation();
 
-            Download();
+            Download(null);
 
             //SetTimer();
         }
@@ -123,17 +126,19 @@ namespace PSKReporterHelper
              DispatcherPriority.Background,
              new Action(() =>
              {
-                 Download();
+                 Download(null);
              }));
                    // Console.WriteLine("Timer off");
 
         }
 
-        private void DownloadDataFromPSKReporter()
+        private void DownloadDataFromPSKReporter(string mycallsign )
         {
-            //string mycallsign = Properties.Settings.Default.MyCallsign;
-
-			      string mycallsign = testcall.SelectedValue as string;
+      //string mycallsign = Properties.Settings.Default.MyCallsign;
+            if (mycallsign == null)
+            {
+              mycallsign = testcall.SelectedValue as string;
+            }
 
 
 						using (var client = new WebClient())
@@ -309,9 +314,9 @@ namespace PSKReporterHelper
             mapView.Markers.Add(marker);
         }
 
-        public void Download()
+        public void Download( string callsign )
         {
-            DownloadDataFromPSKReporter();
+            DownloadDataFromPSKReporter(callsign);
 
             UnZip();
 
@@ -323,7 +328,7 @@ namespace PSKReporterHelper
 
         private void menuDownload(object sender, RoutedEventArgs e)
         {
-            Download();
+            Download(null);
         }
 
         private string getTxtFilename(string Title)
@@ -639,6 +644,31 @@ namespace PSKReporterHelper
 
 			// remove all map markers
 			mapView.Markers.Clear();
+		}
+
+		private void perspectiveChanged(object sender, SelectionChangedEventArgs e)
+		{
+			UnfilteredData = new List<pskdata>();
+
+			// remove all map markers
+			mapView.Markers.Clear();
+
+
+			string str = testcall.SelectedValue as string;
+
+      Download(null);
+		}
+
+		private void addPerspective(object sender, RoutedEventArgs e)
+		{
+
+			// Create a file to write to.
+			using (StreamWriter sw = File.AppendText(fileName))
+			{
+				sw.WriteLine("\n" + testCallsign.Text);			
+			}
+
+		
 		}
 
 		/// <summary>
