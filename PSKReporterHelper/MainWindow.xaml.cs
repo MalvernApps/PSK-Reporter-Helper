@@ -177,8 +177,8 @@ namespace PSKReporterHelper
                     ps.parseline(line);
 
                 first = false;
-
-                if (ps.rxlocation != null && (ps.txlocation.Length < 7) && (ps.rxlocation.Length < 7))
+      
+                if (ps.rxlocation != null && (ps.txlocation.Length < 9) && (ps.rxlocation.Length < 9))
                     UnfilteredData.Add(ps);
             }
         }
