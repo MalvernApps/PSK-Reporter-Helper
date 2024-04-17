@@ -85,30 +85,37 @@ namespace PSKReporterHelper
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            timeFilter.ItemsSource = Enum.GetValues(typeof(FilterEnum)).Cast<FilterEnum>();
-            timeFilter.SelectedIndex = 3;
+		{
+			timeFilter.ItemsSource = Enum.GetValues(typeof(FilterEnum)).Cast<FilterEnum>();
+			timeFilter.SelectedIndex = 3;
 
-            bandFilter.ItemsSource = Enum.GetValues(typeof(BandsEnum)).Cast<BandsEnum>();
-            bandFilter.SelectedIndex = 4;
+			bandFilter.ItemsSource = Enum.GetValues(typeof(BandsEnum)).Cast<BandsEnum>();
+			bandFilter.SelectedIndex = 4;
 
-            LoadCallsigns lcs = new LoadCallsigns();
-
-      testcall.ItemsSource = lcs.callsigns; testcall.SelectedIndex = 5;
-
-      testcall.SelectedIndex = 0;
+			setcombo();
 
 
 
-						// as a red sircle
-						PlotHomeLocation();
+			// as a red sircle
+			PlotHomeLocation();
 
-            Download(null);
+			Download(null);
 
-            //SetTimer();
-        }
+			//SetTimer();
+		}
 
-        private void SetTimer()
+		private void setcombo()
+		{
+			LoadCallsigns lcs = new LoadCallsigns();
+
+
+      testcall.ItemsSource = null;
+			testcall.ItemsSource = lcs.callsigns; testcall.SelectedIndex = 5;
+
+			testcall.SelectedIndex = 0;
+		}
+
+		private void SetTimer()
         {
             // Create a timer with a two second interval.
             aTimer = new System.Timers.Timer(10*1000*1);
@@ -140,6 +147,7 @@ namespace PSKReporterHelper
               mycallsign = testcall.SelectedValue as string;
             }
 
+      if (testcall.Items.Count < 1) return;
 
 						using (var client = new WebClient())
             {
@@ -668,7 +676,11 @@ namespace PSKReporterHelper
 				sw.WriteLine("\n" + testCallsign.Text);			
 			}
 
-		
+      // now need to reload perspectives to combo
+      setcombo();
+
+
+
 		}
 
 		/// <summary>
