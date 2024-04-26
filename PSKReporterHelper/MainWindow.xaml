@@ -41,6 +41,22 @@
             <TabItem Header="App Log">
                 <TextBlock x:Name="mylog"></TextBlock>
             </TabItem>
+            <TabItem Header="Stats">
+                
+                <StackPanel Orientation="Vertical" Margin="5">
+                    
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Label Width="120">Download Count: </Label>
+                        <TextBox x:Name="DownCount" Width="100"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Label Width="120">Max Distane:</Label>
+                        <TextBox x:Name="DownMaxDistance" Width="100"></TextBox>
+                    </StackPanel>
+
+                </StackPanel>
+            </TabItem>
         </TabControl>
        
 
