@@ -331,6 +331,35 @@ namespace PSKReporterHelper
 			Reader();
 
 			SetGridAsync();
+
+			DisplayStats();
+		}
+
+		/// <summary>
+		/// refer https://stackoverflow.com/questions/3925258/c-sharp-list-orderby-descending
+		/// and
+		/// https://stackoverflow.com/questions/1177872/strip-double-quotes-from-a-string-in-net
+		/// </summary>
+
+		private void DisplayStats()
+		{
+			// check we have data
+			if (UnfilteredData.Count == 0) return;
+
+			DownCount.Text = UnfilteredData.Count.ToString();
+
+			List<pskdata> max = new List<pskdata>();
+
+
+			var newList = UnfilteredData.OrderByDescending(x => x.distance)
+											//				.ThenBy(x => x.distance)
+											.ToList();
+
+			DownMaxDistance.Text = newList[0].distance.ToString("0000.0");
+			string callsign = newList[0].rxCallsign.ToString();
+			string withOutQotes = callsign.Trim('"');
+
+			DownMaxCallsign.Text = withOutQotes;
 		}
 
 
