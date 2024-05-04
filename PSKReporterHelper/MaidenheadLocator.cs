@@ -6,6 +6,7 @@
 // This class is based on a Perl module by Dirk Koopman, G1TLH, from 2002-11-07.
 // Source: http://www.koders.com/perl/fidDAB6FD208AC4F5C0306CA344485FD0899BD2F328.aspx
 
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,13 +20,23 @@ namespace maidenhead
 	/// </summary>
 	public class MaidenheadLocator
 	{
+
+		///
+		/// https://stackoverflow.com/questions/2776673/how-do-i-truncate-a-net-string
+		/// 
+
+	
+
 		/// <summary>
 		/// Convert a locator to latitude and longitude in degrees
 		/// </summary>
 		/// <param name="locator">Locator string to convert</param>
 		/// <returns>LatLng structure</returns>
-		public static LatLng LocatorToLatLng(string locator)
+		public static LatLng LocatorToLatLng(string IN_locator)
 		{
+
+			String locator = NormalizeLength(IN_locator, 6);
+
 			locator = locator.Trim().ToUpper();
 			if (Regex.IsMatch(locator, "^[A-R]{2}[0-9]{2}$"))
 			{
@@ -59,6 +70,14 @@ namespace maidenhead
 			{
 				throw new FormatException("Invalid locator format");
 			}
+		}
+
+		private static string NormalizeLength(string value, int maxLength)
+		{
+
+
+			return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+			//	throw new NotImplementedException();
 		}
 
 		/// <summary>

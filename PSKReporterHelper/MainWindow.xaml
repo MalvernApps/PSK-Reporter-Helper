@@ -41,6 +41,7 @@
             <TabItem Header="App Log">
                 <TextBlock x:Name="mylog"></TextBlock>
             </TabItem>
+            
             <TabItem Header="Stats">
                 
                 <StackPanel Orientation="Vertical" Margin="5">
@@ -57,6 +58,10 @@
                     </StackPanel>
 
                 </StackPanel>
+            </TabItem>
+
+            <TabItem Header="graph">
+                
             </TabItem>
         </TabControl>
        
