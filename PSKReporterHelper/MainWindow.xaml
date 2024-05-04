@@ -6,6 +6,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
         xmlns:local="clr-namespace:PSKReporterHelper"
         mc:Ignorable="d"
         Title="PSKHelper by M0JFG" Height="850" Width="1000" Icon="Images\psk.ico">
@@ -61,7 +62,7 @@
             </TabItem>
 
             <TabItem Header="graph">
-                
+                <ScottPlot:WpfPlot x:Name="WpfPlot1"></ScottPlot:WpfPlot>
             </TabItem>
         </TabControl>
        
@@ -86,8 +87,8 @@
                 </RibbonGroup>
 
                 <RibbonGroup Header="Time Filters">
-                    <ComboBox x:Name="timeFilter" Width="120" SelectionChanged="filterchanged"></ComboBox>
-                    <ComboBox x:Name="bandFilter" Width="120" SelectionChanged="filterchanged"></ComboBox>
+                    <ComboBox x:Name="timeFilter" Width="120" SelectionChanged="FilterChanged"></ComboBox>
+                    <ComboBox x:Name="bandFilter" Width="120" SelectionChanged="FilterChanged"></ComboBox>
                 </RibbonGroup>
 
 

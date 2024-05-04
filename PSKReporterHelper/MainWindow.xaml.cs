@@ -24,6 +24,7 @@ using Microsoft.Win32;
 using System.Threading;
 using System.Windows.Threading;
 using static GMap.NET.Entity.OpenStreetMapGraphHopperRouteEntity;
+using ScottPlot;
 
 namespace PSKReporterHelper
 {
@@ -56,7 +57,15 @@ namespace PSKReporterHelper
 
 			Instance = this;
 
-			this.Loaded += MainWindow_Loaded;
+			this.Loaded += MainWindow_Loaded;		
+		}
+
+		private void DrawGraph2()
+		{
+			double[] dataX = { 1, 2, 3, 4, 15 };
+			double[] dataY = { 1, 4, 9, 16, 25 };
+			WpfPlot1.Plot.Add.Scatter(dataX, dataY);
+			WpfPlot1.Refresh();
 		}
 
 		public string GetMyCallsign()
@@ -101,7 +110,47 @@ namespace PSKReporterHelper
 
 			Download(null);
 
+			DrawGraph(0xff00ff00);
+
+		//	DrawGraph();
+
 			//SetTimer();
+		}
+
+		private void DrawGraph( uint color )
+		{
+			List<pskdata> data = FilteredData;
+
+			if (FilteredData.Count > 0)
+			{
+				data = FilteredData;
+				color = 0xffff0000;
+			}
+			else
+				{
+				data = UnfilteredData;
+				color = 0xff0000ff;
+			}
+				double[] dataX = new double[ data.Count ];
+				double[] dataY = new double[data.Count];
+
+				for (int x = 0; x< data.Count;x++)
+				{
+					dataX[x] = data[x].distance;
+					dataY[x] = data[x].snr;
+				}
+
+			WpfPlot1.Plot.Clear();
+
+			ScottPlot.Color f = new ScottPlot.Color();
+			f = ScottPlot.Color.FromARGB(color);
+
+
+				//WpfPlot1.Plot.Add.Scatter(dataX, dataY);
+				//WpfPlot1.Plot.Add.SignalXY(dataX , dataY);
+			WpfPlot1.Plot.Add.Markers(dataX, dataY, MarkerShape.Cross, 10, f );
+			//		WpfPlot1.Plot.AddScatterPoints(dataX, datraY, System.Drawing.Color.Navy, 10, MarkerShape.Cross);
+			WpfPlot1.Refresh();
 		}
 
 		private void setcombo()
@@ -259,9 +308,9 @@ namespace PSKReporterHelper
 		/// <param name="rangeEnd"></param>
 		/// <param name="actualValue"></param>
 		/// <returns></returns>
-		private Color GetColor(Int32 rangeStart /*Complete Red*/, Int32 rangeEnd /*Complete Green*/, Int32 actualValue)
+		private System.Windows.Media.Color GetColor(Int32 rangeStart /*Complete Red*/, Int32 rangeEnd /*Complete Green*/, Int32 actualValue)
 		{
-			if (rangeStart >= rangeEnd) return Colors.Black;
+			if (rangeStart >= rangeEnd) return System.Windows.Media.Colors.Black;
 
 			Int32 max = rangeEnd - rangeStart; // make the scale start from 0
 			Int32 value = actualValue - rangeStart; // adjust the value accordingly
@@ -269,7 +318,7 @@ namespace PSKReporterHelper
 			Int32 green = (255 * value) / max; // calculate green (the closer the value is to max, the greener it gets)
 			Int32 red = 255 - green; // set red as inverse of green
 
-			return Color.FromRgb((Byte)red, (Byte)green, (Byte)0);
+			return System.Windows.Media.Color.FromRgb((Byte)red, (Byte)green, (Byte)0);
 		}
 
 		private void AdCircledMarkerSpot(Spot s, int band)
@@ -531,7 +580,7 @@ namespace PSKReporterHelper
 		}
 
 
-		private void filterchanged(object sender, SelectionChangedEventArgs e)
+		private void FilterChanged(object sender, SelectionChangedEventArgs e)
 		{
 
 			filtertype = (FilterEnum)timeFilter.SelectedItem;
@@ -544,6 +593,13 @@ namespace PSKReporterHelper
 			freq = (int)BandFilter;
 
 			DoTimeFilter(minutes, freq);
+
+			var ordered = FilteredData.OrderBy(x => x.distance).ToList();
+
+			mygrid.ItemsSource = null;
+			mygrid.ItemsSource = ordered;
+
+			DrawGraph(0xffff0000);
 
 		}
 
